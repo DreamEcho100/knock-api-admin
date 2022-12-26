@@ -1,0 +1,45 @@
+{
+    "sectionOne": {
+      "img": "/images/abc59a63fe5ed68da58bff746fd14cce.png",
+      "h1": "MAKE YOUR DRUMS KNOCK",
+      "p": "Make your drums KNOCK and punch through the mix."
+    },
+    "sectionTwo": {
+        "p":"KNOCK is the last plugin you will ever need to make your drums slap and punch through your mix. This plugin was meticulously crafted by platinum producer & award winning sound designer, DECAP. It is inspired by the signature sound of his popular drum kit series DRUMS THAT KNOCK, which has helped shaped the sonics of modern music.        "
+    },
+    "sectionThree": {
+      "h2": "HOW KNOCK SHAPES YOUR DRUMS",
+      "punsh":"Transient shaper, amplifies the attack of your drums, making them more snappy and punchy. Add a touch of Punch to bring your drum tracks to life. Great for drum loops or one shots.",
+      "saturate":"Adds harmonic distortion while compensating perceived loudness volume. Choose from three selectable modes (soft, medium, hard). Perfect for 808s, one shots, or drum loops.      ",
+      "sub":"Detects when a kick drum is present, and generates a layered sub frequency tone, giving your kick a deep low end presence. Select the pitch of your sub tone. Perfect for breakbeats, and tuning your kick drum to the key of your song.      ",
+      "air":"Adds smooth, transparent top end to your drum tracks without even a hint of harshness. There are two user selectable modes (vintage and clean).",
+      "clip":"A user adjustable hard & soft clipper. Push your drums hard without clipping to give your drums a warm, aggressive tone reminiscent of pushing vintage analogue gear into 'the red'. Select a harder clip curve for a more aggressive tone, or a softer clip curve for a more rounded tone."
+    },
+    "sectionFour": {
+      "h2": "EASY TO USE",
+      "p": "KNOCK is optimized for extreme ease of use for beginners and professionals alike. Use KNOCK to make your drums slap, and take you to the next level. Whether you are new to producing, or a seasoned pro, KNOCK will seamlessly fit into your workflow. It's lightweight on your CPU too - use iton a bunch of tracks!"
+    },
+    "sectionFive": {
+        "h2": "DRUMS THAT KNOCK",
+        "p": "This plugin includes every feature DECAP used in order to craft his signature sound heard in DRUMS THAT KNOCK, and has been optimized for the highest quality sound possible. Every feature has been fine tuned to perfection to DECAP's production standards. KNOCK also comes bundled with factory presets crafted by DECAP."
+      },
+    "sectionSix": {
+        "h2": "SYSTEM REQUIREMENTS",
+        "p": "Supported by all major DAWs in 64-bit VST3, AU and AAX format.",
+        "mac":["9 OSX 10.12+ - AU, VST3, AAX (Fully compatible with both Mac OS Ventura and Apple M1 & M2.)",
+            "Intel Core i5, i7, i9, Xeon, Apple M1",
+            "8GB RAM required, 16GB recommended",
+            "HDD Space requirements: Minimum of 500MB"
+        ],
+        "pc":["Intel Core i5, i7, i9, Xeon (all Gen 5 and above), AMD Quad Core",
+            "Windows 8.1, 10 - 64 bit VST3, AAX",
+            "8GB RAM required, 16GB recommended",
+            "HDD Space requirements: Minimum of 500MB"
+        ]
+    },
+    "sectionSeven":{
+        "h2":"TAKE YOUR DRUMS TO THE NEXT LEVEL"
+    }
+    
+  }
+  
