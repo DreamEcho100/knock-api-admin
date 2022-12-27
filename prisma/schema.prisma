@@ -32,3 +32,11 @@ model banner {
 }
 
 
+model verification_codes {
+  id         Int      @id @default(autoincrement())
+  email      String   @unique
+  expiration DateTime
+  code       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
