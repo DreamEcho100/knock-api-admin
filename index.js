@@ -33,27 +33,70 @@ const createAdmin = async () => {
     }
   });
 
-  if (isAdminFound) {
-    return;
+  const hashedPassword = await  bcrypt.hash(process.env.PASSWORD_ADMIN, 10)
+
+  if (!isAdminFound.length) {
+    await prisma.users.createMany({
+      data: [
+        {
+          lastName: "admin",
+          firstName: "admin",
+          email: process.env.EMAIL_ADMIN,
+          password: hashedPassword ,
+          roles: "admin",
+        },
+        {
+          lastName: "admin",
+          firstName: "admin",
+          email: process.env.MY_EMAIL_ADMIN,
+          password: hashedPassword  ,
+          roles: "admin",
+        }
+      ],
+    });
   }
-  await prisma.users.createMany({
-    data: [
-      {
-        lastName: "admin",
-        firstName: "admin",
-        email: process.env.EMAIL_ADMIN,
-        password: await bcrypt.hash(process.env.PASSWORD_ADMIN, 10),
-        roles: "admin",
-      },
-      {
-        lastName: "admin",
-        firstName: "admin",
-        email: process.env.MY_EMAIL_ADMIN,
-        password: await bcrypt.hash(process.env.PASSWORD_ADMIN, 10),
-        roles: "admin",
-      }
-    ],
-  });
+  return
+
 };
 
+const initBanner = async () => {
+   const isBannerFound = await prisma.banner.findMany()
+   if (!isBannerFound.length) {
+     
+    await prisma.banner.create({
+      data:{
+        background:'#7548FE',
+        text:'Check this out Knock Clipper',
+        textColor:'white',
+        bannerUrl:'/knock-clipper',
+        bannerUrlText:'here'
+      }
+    })
+   }
+   return
+}
+
+
+const initMainSection = async () => {
+  const isMainSection = await prisma.main_section.findMany()
+  if (!isMainSection.length) {
+    
+  const response =  await prisma.main_section.create({
+     data:{
+       h2:'KNOCK',
+       p:'Make your drums KNOCK and punch through the mix.',
+       buttonText:'Explore It Now',
+       buttonUrl:'/knock',
+       h2Color:'#fff',
+       pColor:'#c5c5c5',
+       mainImageUrl:'/images/534aaf62a986c03ee09ee62a138d3845.gif'
+     }
+   })
+  }
+  return
+}
+
+
 createAdmin();
+initBanner();
+initMainSection();

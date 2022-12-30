@@ -25,12 +25,24 @@ model users {
 }
 
 model banner {
-  id         Int       @id @default(autoincrement())
-  background String
-  text       String
-  textColor  String
+  id            Int    @id @default(autoincrement())
+  background    String
+  bannerUrl     String
+  bannerUrlText String
+  text          String
+  textColor     String
 }
 
+model main_section {
+  id           Int    @id @default(autoincrement())
+  h2           String
+  p            String
+  buttonText   String
+  buttonUrl    String
+  h2Color      String
+  pColor       String
+  mainImageUrl String
+}
 
 model verification_codes {
   id         Int      @id @default(autoincrement())

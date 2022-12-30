@@ -10,7 +10,6 @@ const {   EMAIL_ADMIN  } = process.env;
 exports.getAdmins = async (req, res) => {
   try {
     const admins = await prisma.users.findMany();
-    console.log(admins);
     return res.status(200).json({
       success: true,
       message: "",
@@ -142,10 +141,6 @@ exports.addAdmin = async (req, res) => {
           subject:'admin verification code' ,
           htmlContent
         })
-
-        console.log('====================================');
-        console.log(isEmailSent);
-        console.log('====================================');
 
       }
     );

@@ -28,24 +28,25 @@ exports.login = async (req, res) => {
       throw new Error("User not existing!");
     }
 
-    let isVerificationCodeSame = await prisma.verification_codes.findFirst({
-      where:{
-        email
-      }
-    })
-
-    if (!isVerificationCodeSame) {
-      throw new Error('No code have been sent!')
+    const verificationCodeFound = await prisma.verification_codes.findFirst({where: {AND: {email, code:verificationCode}}});
+    
+    if (!verificationCodeFound) {
+      throw new Error("Invalid verification code!")
     }
 
-    if (isVerificationCodeSame.code !== verificationCode) {
-       throw new Error('INVALID CODE!')
+    const isExpired = moment().isAfter(moment(verificationCodeFound.expiration));
+
+    if (isExpired) {
+      await prisma.verification_codes.delete({where: {id: verificationCodeFound.id}});
+      throw new Error("Verification code expired!")      
     }
+
+    
 
     let isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
-      throw new Error("Identifiants incorrects !");
+      throw new Error("Incorrect credentials!");
     }
 
     delete user.password;

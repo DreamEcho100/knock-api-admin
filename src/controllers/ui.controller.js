@@ -1,17 +1,14 @@
-
 const fs = require("fs");
 const path = require("path");
 const { prisma } = require("../../prisma/prisma");
 
-
-exports.addBanner = async (req ,res) => {
+exports.getBanner = async (req, res) => {
   try {
-    
-    const data = req.body
-
-    const banner = await prisma.banner.create({
-      data
-    })
+    const banner = await prisma.banner.findUnique({
+      where: {
+        id: 1,
+      },
+    });
 
     return res.status(200).json({
       success: true,
@@ -25,93 +22,109 @@ exports.addBanner = async (req ,res) => {
       message: error.message,
     });
   }
-}
+};
 
-exports.getBanner = async (req, res) => {
-    try {
+exports.changeBanner = async (req, res) => {
+  try {
+    const data = req.body;
+
+    const update = await prisma.banner.update({
+      where: {
+        id: 1,
+      },
+      data,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Banner changed Successfully!",
+      banner: update,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getMainSection = async (req, res) => {
+  try {
+    const main = await prisma.main_section.findUnique({
+      where: {
+        id: 1,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "",
+      main,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.changeMainSection = async (req, res) => {
+  try {
+    let data = req.body;
+
+    delete data.mainImageUrl;
+
+    const update = await prisma.main_section.update({
+      where: {
+        id: 1,
+      },
+      data,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Main section changed Successfully!",
+      banner: update,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.uploadImageMainSection = async (req, res) => {
+  try {
+
+    if (req.file) {
       
-      const banner = await prisma.banner.findUnique({where:{
-        id:1
-      }})
-  
-      return res.status(200).json({
-        success: true,
-        message: "",
-        banner,
-      });
+      const path = req.file.path.split("public");
 
-    } catch (error) {
-      console.log(error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
+      await prisma.main_section.update({
+        where: {
+          id: 1,
+        },
+        data: {
+          mainImageUrl: path[1],
+        },
       });
-    }
-  };
-  
-  exports.changeBanner = async (req, res) => {
-    try {
-
-      const data = req.body
       
-      const update = await prisma.banner.update({
-        where:{
-          id:1
-        },data
-      })
-
       return res.status(200).json({
         success: true,
-        message: "Banner changed Successfully!",
-        banner:update
-      });
-    } catch (error) {
-      console.log(error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
+        message: "Main image uploaded successfully",
       });
     }
-  };
-  
-  
-  exports.getHomePage = async (req, res) => {
-    try {
-      if (!homePage) {
-        throw new Error("Failed to load the page");
-      }
-  
-      return res.status(200).json({
-        success: true,
-        message: "",
-        homePage,
-      });
-    } catch (error) {
-      console.log(error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-  
-  exports.changeHomePage = async (req, res) => {
-    try {
-      const dir = path.join(__dirname, "../pages/Home.json");
-      const data = req.body;
-      const jsonString = JSON.stringify(data);
-      fs.writeFileSync(dir, jsonString);
-  
-      return res.status(200).json({
-        success: true,
-        message: "Successfully wrote file",
-      });
-    } catch (error) {
-      console.log(error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-  };
-  
+   
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
