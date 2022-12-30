@@ -141,13 +141,13 @@ exports.sendVerificationCode = async (req, res) => {
           to:[{
             email:email
           }],
-          subject:'admin verification code' ,
+          subject:'Admin verification code' ,
           htmlContent
         })
 
         return res.status(201).json({
           success: true,
-          message: "Code de vérification envoyé !",
+          message: "Verification code sent!",
           isEmailSent
         });
 

@@ -131,14 +131,14 @@ exports.addAdmin = async (req, res) => {
 
 
         const sendEmail = await new SibApiV3Sdk.TransactionalEmailsApi();
-        const isEmailSent = await sendEmail.sendTransacEmail({
+        await sendEmail.sendTransacEmail({
           sender:{
              email:EMAIL_ADMIN
           },
           to:[{
             email:email
           }],
-          subject:'admin verification code' ,
+          subject:'Admin information access' ,
           htmlContent
         })
 
