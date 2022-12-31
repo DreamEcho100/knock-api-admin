@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { prisma } = require("../../prisma/prisma");
 
+
+// banner
 exports.getBanner = async (req, res) => {
   try {
     const banner = await prisma.banner.findUnique({
@@ -49,6 +51,7 @@ exports.changeBanner = async (req, res) => {
   }
 };
 
+// main
 exports.getMainSection = async (req, res) => {
   try {
     const main = await prisma.main_section.findUnique({
@@ -100,9 +103,7 @@ exports.changeMainSection = async (req, res) => {
 
 exports.uploadImageMainSection = async (req, res) => {
   try {
-
     if (req.file) {
-      
       const path = req.file.path.split("public");
 
       await prisma.main_section.update({
@@ -113,13 +114,91 @@ exports.uploadImageMainSection = async (req, res) => {
           mainImageUrl: path[1],
         },
       });
-      
+
       return res.status(200).json({
         success: true,
         message: "Main image uploaded successfully",
       });
     }
-   
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+//
+
+exports.getPopUp = async (req, res) => {
+  try {
+    const popup = await prisma.popup.findUnique({
+      where: {
+        id: 1,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "",
+      popup,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.changePopUp = async (req, res) => {
+  try {
+    let data = req.body;
+    
+    delete data.mainImageUrl;
+
+    const update = await prisma.popup.update({
+      where: {
+        id: 1,
+      },
+      data,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Main section changed Successfully!",
+      popup: update,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.uploadImagePopUp = async (req, res) => {
+  try {
+    if (req.file) {
+      const path = req.file.path.split("public");
+
+      await prisma.popup.update({
+        where: {
+          id: 1,
+        },
+        data: {
+          mainImageUrl: path[1],
+        },
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: "Main image uploaded successfully",
+      });
+    }
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({

@@ -44,6 +44,18 @@ model main_section {
   mainImageUrl String
 }
 
+model popup {
+  id           Int    @id @default(autoincrement())
+  h2           String
+  p            String
+  h2Color      String
+  pColor       String
+  buttonText   String
+  buttonColor  String
+  buttonLink   String
+  mainImageUrl String
+}
+
 model verification_codes {
   id         Int      @id @default(autoincrement())
   email      String   @unique

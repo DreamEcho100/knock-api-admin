@@ -15,6 +15,12 @@ router.post('/upload/image-main-section', isAuth , upload.single('mainImageUrl')
 router.put('/edit-main-section', isAuth , uiController.changeMainSection);
 router.get('/get-main-section' , uiController.getMainSection);
 
+// popup
+
+router.post('/upload/image-popup', isAuth , upload.single('mainImageUrl') , uiController.uploadImagePopUp);
+router.put('/edit-popup', isAuth , uiController.changePopUp);
+router.get('/get-popup' , uiController.getPopUp);
+
 // Banner 
 
 router.put('/edit-banner' , isAuth , uiController.changeBanner)

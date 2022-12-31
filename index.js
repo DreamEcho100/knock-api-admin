@@ -26,14 +26,14 @@ app.listen(4500, () => {
 
 const createAdmin = async () => {
   const isAdminFound = await prisma.users.findMany({
-    where:{
-        email:{
-            in:[process.env.EMAIL_ADMIN ,process.env.MY_EMAIL_ADMIN]
-        }
-    }
+    where: {
+      email: {
+        in: [process.env.EMAIL_ADMIN, process.env.MY_EMAIL_ADMIN],
+      },
+    },
   });
 
-  const hashedPassword = await  bcrypt.hash(process.env.PASSWORD_ADMIN, 10)
+  const hashedPassword = await bcrypt.hash(process.env.PASSWORD_ADMIN, 10);
 
   if (!isAdminFound.length) {
     await prisma.users.createMany({
@@ -42,61 +42,76 @@ const createAdmin = async () => {
           lastName: "admin",
           firstName: "admin",
           email: process.env.EMAIL_ADMIN,
-          password: hashedPassword ,
+          password: hashedPassword,
           roles: "admin",
         },
         {
           lastName: "admin",
           firstName: "admin",
           email: process.env.MY_EMAIL_ADMIN,
-          password: hashedPassword  ,
+          password: hashedPassword,
           roles: "admin",
-        }
+        },
       ],
     });
   }
-  return
-
+  return;
 };
 
 const initBanner = async () => {
-   const isBannerFound = await prisma.banner.findMany()
-   if (!isBannerFound.length) {
-     
+  const isBannerFound = await prisma.banner.findMany();
+  if (!isBannerFound.length) {
     await prisma.banner.create({
-      data:{
-        background:'#7548FE',
-        text:'Check this out Knock Clipper',
-        textColor:'white',
-        bannerUrl:'/knock-clipper',
-        bannerUrlText:'here'
-      }
-    })
-   }
-   return
-}
-
+      data: {
+        background: "#7548FE",
+        text: "Check this out Knock Clipper",
+        textColor: "white",
+        bannerUrl: "/knock-clipper",
+        bannerUrlText: "here",
+      },
+    });
+  }
+  return;
+};
 
 const initMainSection = async () => {
-  const isMainSection = await prisma.main_section.findMany()
+  const isMainSection = await prisma.main_section.findMany();
   if (!isMainSection.length) {
-    
-  const response =  await prisma.main_section.create({
-     data:{
-       h2:'KNOCK',
-       p:'Make your drums KNOCK and punch through the mix.',
-       buttonText:'Explore It Now',
-       buttonUrl:'/knock',
-       h2Color:'#fff',
-       pColor:'#c5c5c5',
-       mainImageUrl:'/images/534aaf62a986c03ee09ee62a138d3845.gif'
-     }
-   })
+    const response = await prisma.main_section.create({
+      data: {
+        h2: "KNOCK",
+        p: "Make your drums KNOCK and punch through the mix.",
+        buttonText: "Explore It Now",
+        buttonUrl: "/knock",
+        h2Color: "#fff",
+        pColor: "#c5c5c5",
+        mainImageUrl: "/images/534aaf62a986c03ee09ee62a138d3845.gif",
+      },
+    });
   }
-  return
-}
+  return;
+};
 
+const initPopup = async () => {
+  const isPopup = await prisma.popup.findMany();
+  if (!isPopup.length) {
+    const response = await prisma.popup.create({
+      data: {
+        h2: "KNOCK CLIPPER",
+        p: "Adjustable hard & soft clipper module from KNOCK.",
+        h2Color: "#FFFFFF",
+        pColor: "#FFFFFF",
+        buttonText: "Explore it",
+        buttonColor: "#7548FE",
+        buttonLink: "/knock-clipper",
+        mainImageUrl: "/images/abc59a63fe5ed68da58bff746fd14cce.png",
+      },
+    });
+  }
+  return;
+};
 
 createAdmin();
 initBanner();
 initMainSection();
+initPopup()
