@@ -26,7 +26,7 @@ exports.isAuth = async (req, res, next) => {
 
     if (user.roles.includes('admin')) {
 
-      
+      delete user.password
       delete user.tokens;
 
       req.user = user;
