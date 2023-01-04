@@ -8,7 +8,7 @@ exports.getBanner = async (req, res) => {
   try {
     const banner = await prisma.banner.findUnique({
       where: {
-        id: 1,
+        id: 3,
       },
     });
 
@@ -32,7 +32,7 @@ exports.changeBanner = async (req, res) => {
 
     const update = await prisma.banner.update({
       where: {
-        id: 1,
+        id: 3,
       },
       data,
     });
@@ -136,7 +136,7 @@ exports.getPopUp = async (req, res) => {
   try {
     const popup = await prisma.popup.findUnique({
       where: {
-        id: 1,
+        id: 3,
       },
     });
 
@@ -162,13 +162,13 @@ exports.changePopUp = async (req, res) => {
 
     const update = await prisma.popup.update({
       where: {
-        id: 1,
+        id: 3,
       },
       data,
     });
     return res.status(200).json({
       success: true,
-      message: "Main section changed Successfully!",
+      message: "Popup changed Successfully!",
       popup: update,
     });
   } catch (error) {
@@ -187,7 +187,7 @@ exports.uploadImagePopUp = async (req, res) => {
 
       await prisma.popup.update({
         where: {
-          id: 1,
+          id: 3,
         },
         data: {
           mainImageUrl: path[1],
@@ -196,7 +196,7 @@ exports.uploadImagePopUp = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: "Main image uploaded successfully",
+        message: "Popup image uploaded successfully",
       });
     }
   } catch (error) {
