@@ -25,12 +25,13 @@ model users {
 }
 
 model banner {
-  id            Int    @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   background    String
   bannerUrl     String
   bannerUrlText String
   text          String
   textColor     String
+  disable       Boolean
 }
 
 model main_section {
@@ -45,7 +46,7 @@ model main_section {
 }
 
 model popup {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   h2           String
   p            String
   h2Color      String
@@ -54,6 +55,7 @@ model popup {
   buttonColor  String
   buttonLink   String
   mainImageUrl String
+  disable      Boolean
 }
 
 model verification_codes {

@@ -68,6 +68,7 @@ const initBanner = async () => {
         textColor: "white",
         bannerUrl: "/knock-clipper",
         bannerUrlText: "here",
+        disable:false
       },
     });
   }
@@ -105,6 +106,7 @@ const initPopup = async () => {
         buttonColor: "#7548FE",
         buttonLink: "/knock-clipper",
         mainImageUrl: "/images/abc59a63fe5ed68da58bff746fd14cce.png",
+        disable:false
       },
     });
   }
