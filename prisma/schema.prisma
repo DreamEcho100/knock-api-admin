@@ -58,6 +58,340 @@ model popup {
   disable      Boolean
 }
 
+model knock_main_section {
+  id           Int    @id @default(autoincrement())
+  h2           String
+  tradeMark    String
+  p            String
+  buttonText   String
+  mainImageUrl String
+}
+
+model knock_clipper_main_section {
+  id           Int    @id @default(autoincrement())
+  h2           String
+  tradeMark    String
+  p            String
+  buttonText   String
+  mainImageUrl String
+}
+
+model main_section_dtk_page {
+  id        Int      @id @default(autoincrement())
+  tradeMark String
+  h2        String[]
+  p         String[]
+}
+
+// ------------------------- Home Page ------------------------------------------------- 
+model home_page {
+  id                       Int                        @id @default(autoincrement())
+  second_section_home_page second_section_home_page[]
+  third_section_home_page  third_section_home_page[]
+  forth_section_home_page  forth_section_home_page[]
+}
+
+model second_section_home_page {
+  id          Int       @id @default(autoincrement())
+  h2          String
+  tradeMark   String
+  p           String
+  button      String
+  buttonUrl   String
+  buttonColor String
+  imageUrl    String
+  home_page   home_page @relation(fields: [id], references: [id])
+}
+
+model third_section_home_page {
+  id        Int       @id @default(autoincrement())
+  h2        String
+  tradeMark String
+  p         String
+  home_page home_page @relation(fields: [id], references: [id])
+}
+
+model forth_section_home_page {
+  id            Int       @id @default(autoincrement())
+  h2            String[]
+  tradeMark     String
+  p             String[]
+  button        String
+  buttonUrl     String
+  buttonColor   String
+  itemOneHandle String
+  itemTwoHandle String
+  home_page     home_page @relation(fields: [id], references: [id])
+}
+
+// --------------------------------------------------------------------------------------
+
+// --------------------------- Knock Page -----------------------------------------------
+
+model knock_page {
+  id                        Int                         @id @default(autoincrement())
+  second_section_knock_page second_section_knock_page[]
+  third_section_knock_page  third_section_knock_page[]
+  forth_section_knock_page  forth_section_knock_page[]
+  fifth_section_knock_page  fifth_section_knock_page[]
+  six_section_knock_page    six_section_knock_page[]
+  seven_section_knock_page  seven_section_knock_page[]
+  eight_section_knock_page  eight_section_knock_page[]
+  ios_section_knock_page    ios_section_knock_page[]
+}
+
+model second_section_knock_page {
+  id            Int        @id @default(autoincrement())
+  p             String
+  knock_page    knock_page @relation(fields: [knock_page_id], references: [id])
+  knock_page_id Int
+}
+
+model third_section_knock_page {
+  id                               Int                                @id @default(autoincrement())
+  h2                               String
+  tradeMark                        String
+  third_section_knock_page_content third_section_knock_page_content[]
+  knock_page                       knock_page                         @relation(fields: [knock_page_id], references: [id])
+  knock_page_id                    Int
+}
+
+model third_section_knock_page_content {
+  id                          Int                      @id @default(autoincrement())
+  image                       String
+  h3                          String
+  p                           String
+  third_section_knock_page    third_section_knock_page @relation(fields: [third_section_knock_page_id], references: [id])
+  third_section_knock_page_id Int
+}
+
+model ios_section_knock_page {
+  id           Int         @id @default(autoincrement())
+  h2           String
+  tradeMark    String
+  p            String
+  button       String
+  buttonUrl    String
+  buttonColor  String
+  imageUrl     String
+  knock_page   knock_page? @relation(fields: [knock_pageId], references: [id])
+  knock_pageId Int?
+}
+
+model forth_section_knock_page {
+  id            Int        @id @default(autoincrement())
+  h2            String
+  p             String
+  button        String
+  imageUrl      String
+  knock_page    knock_page @relation(fields: [knock_page_id], references: [id])
+  knock_page_id Int
+}
+
+model fifth_section_knock_page {
+  id            Int        @id @default(autoincrement())
+  h2            String
+  tradeMark     String
+  p             String
+  button        String
+  imageUrl      String
+  knock_page    knock_page @relation(fields: [knock_page_id], references: [id])
+  knock_page_id Int
+}
+
+model six_section_knock_page {
+  id                             Int                              @id @default(autoincrement())
+  six_section_knock_page_content six_section_knock_page_content[]
+  knock_page                     knock_page                       @relation(fields: [knock_page_id], references: [id])
+  knock_page_id                  Int
+}
+
+model six_section_knock_page_content {
+  id                        Int                    @id @default(autoincrement())
+  imageUrl                  String
+  review                    String
+  reviewBy                  String
+  priority                  Boolean?
+  alt                       String?
+  six_section_knock_page    six_section_knock_page @relation(fields: [six_section_knock_page_id], references: [id])
+  six_section_knock_page_id Int
+}
+
+model seven_section_knock_page {
+  id                           Int                            @id @default(autoincrement())
+  h2                           String
+  p                            String
+  seven_section_knock_page_pc  seven_section_knock_page_pc[]
+  seven_section_knock_page_mac seven_section_knock_page_mac[]
+  knock_page                   knock_page                     @relation(fields: [knock_page_id], references: [id])
+  knock_page_id                Int
+}
+
+model seven_section_knock_page_mac {
+  id                          Int                      @id @default(autoincrement())
+  li                          String
+  seven_section_knock_page    seven_section_knock_page @relation(fields: [seven_section_knock_page_id], references: [id])
+  seven_section_knock_page_id Int
+}
+
+model seven_section_knock_page_pc {
+  id                          Int                      @id @default(autoincrement())
+  li                          String
+  seven_section_knock_page    seven_section_knock_page @relation(fields: [seven_section_knock_page_id], references: [id])
+  seven_section_knock_page_id Int
+}
+
+model eight_section_knock_page {
+  id               Int        @id @default(autoincrement())
+  h2               String
+  youtubeUrl       String
+  youtubeImageUrl  String
+  youtubeUrl2      String
+  youtubeImageUrl2 String
+  button           String
+  knock_page       knock_page @relation(fields: [knock_page_id], references: [id])
+  knock_page_id    Int
+}
+
+// --------------------------------knock clipper-----------------------------------------
+
+model knock_clipper_page {
+  id                                Int                                 @id @default(autoincrement())
+  second_section_knock_clipper_page second_section_knock_clipper_page[]
+  third_section_knock_clipper_page  third_section_knock_clipper_page[]
+  forth_section_knock_clipper_page  forth_section_knock_clipper_page[]
+  fifth_section_knock_clipper_page  fifth_section_knock_clipper_page[]
+}
+
+model second_section_knock_clipper_page {
+  id                    Int                @id @default(autoincrement())
+  p                     String
+  knock_clipper_page    knock_clipper_page @relation(fields: [knock_clipper_page_id], references: [id])
+  knock_clipper_page_id Int
+}
+
+model third_section_knock_clipper_page {
+  id                    Int                @id @default(autoincrement())
+  h2                    String
+  p                     String
+  button                String
+  imageUrl              String
+  tradeMark             String
+  knock_clipper_page    knock_clipper_page @relation(fields: [knock_clipper_page_id], references: [id])
+  knock_clipper_page_id Int
+}
+
+model forth_section_knock_clipper_page {
+  id                                   Int                                    @id @default(autoincrement())
+  h2                                   String
+  p                                    String
+  forth_section_knock_clipper_page_pc  forth_section_knock_clipper_page_pc[]
+  forth_section_knock_clipper_page_mac forth_section_knock_clipper_page_mac[]
+  knock_clipper_page                   knock_clipper_page                     @relation(fields: [knock_clipper_page_id], references: [id])
+  knock_clipper_page_id                Int
+}
+
+model forth_section_knock_clipper_page_mac {
+  id                                  Int                              @id @default(autoincrement())
+  li                                  String
+  forth_section_knock_clipper_page    forth_section_knock_clipper_page @relation(fields: [forth_section_knock_clipper_page_id], references: [id])
+  forth_section_knock_clipper_page_id Int
+}
+
+model forth_section_knock_clipper_page_pc {
+  id                                  Int                              @id @default(autoincrement())
+  li                                  String
+  forth_section_knock_clipper_page    forth_section_knock_clipper_page @relation(fields: [forth_section_knock_clipper_page_id], references: [id])
+  forth_section_knock_clipper_page_id Int
+}
+
+model fifth_section_knock_clipper_page {
+  id                    Int                @id @default(autoincrement())
+  h2                    String
+  button                String
+  youtubeUrl            String
+  youtubeImageUrl       String
+  youtubeUrl2           String
+  youtubeImageUrl2      String
+  knock_clipper_page    knock_clipper_page @relation(fields: [knock_clipper_page_id], references: [id])
+  knock_clipper_page_id Int
+}
+
+// ------------------------------------------ DTK ---------------------------------------
+
+model dtk_page {
+  id                      Int                        @id @default(autoincrement())
+  artist_section_dtk_page artist_section_dtk_page[]
+  review_section_dtk_page reviews_section_dtk_page[]
+  last_section_dtk_page   last_section_dtk_page[]
+}
+
+model artist_section_dtk_page {
+  id                              Int                               @id @default(autoincrement())
+  h2                              String
+  tradeMark                       String
+  artist_section_dtk_page_content artist_section_dtk_page_content[]
+  dtk_page                        dtk_page?                         @relation(fields: [dtk_pageId], references: [id])
+  dtk_pageId                      Int?
+}
+
+model artist_section_dtk_page_content {
+  id                        Int                      @id @default(autoincrement())
+  imageUrl                  String
+  name                      String
+  artist_section_dtk_page   artist_section_dtk_page? @relation(fields: [artist_section_dtk_pageId], references: [id])
+  artist_section_dtk_pageId Int?
+}
+
+model reviews_section_dtk_page {
+  id                              Int                               @id @default(autoincrement())
+  review_section_dtk_page_content review_section_dtk_page_content[]
+  dtk_page                        dtk_page                          @relation(fields: [dtk_page_id], references: [id])
+  dtk_page_id                     Int
+}
+
+model review_section_dtk_page_content {
+  id                         Int                      @id @default(autoincrement())
+  imageUrl                   String
+  review                     String
+  reviewBy                   String
+  priority                   Boolean?
+  alt                        String?
+  reviews_section_dtk_page   reviews_section_dtk_page @relation(fields: [review_section_dtk_page_id], references: [id])
+  review_section_dtk_page_id Int
+}
+
+model last_section_dtk_page {
+  id         Int       @id @default(autoincrement())
+  h2         String
+  tradeMark  String
+  p          String
+  button     String
+  buttonUrl  String
+  imageUrl   String
+  dtk_page   dtk_page? @relation(fields: [dtk_pageId], references: [id])
+  dtk_pageId Int?
+}
+
+// --------------------------------- FAQ ------------------------------------------------
+
+model faq_page {
+  id          Int        @id @default(autoincrement())
+  h2          String
+  p           String
+  h3          String?
+  faq_list    faq_list[]
+  answer_type String
+}
+
+model faq_list {
+  id       Int       @id @default(autoincrement())
+  li       String
+  faq_page faq_page? @relation(fields: [faqId], references: [id])
+  faqId    Int?
+}
+
+// --------------------------------------------------------------------------------------
 model verification_codes {
   id         Int      @id @default(autoincrement())
   email      String   @unique
