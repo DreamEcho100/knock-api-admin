@@ -269,6 +269,7 @@ exports.changeKnockClipperMainSection = async (req, res) => {
     delete data.pColor;
     delete data.mainImageUrl;
     delete req.body.imageUrl;
+    delete req.body.sectionId;
 
     await prisma.knock_clipper_main_section.update({
       where: {

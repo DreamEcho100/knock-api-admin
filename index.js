@@ -122,7 +122,7 @@ const initMainSection = async () => {
 const initPopup = async () => {
   const isPopup = await prisma.popup.findMany();
   if (!isPopup.length) {
-    const response = await prisma.popup.create({
+    await prisma.popup.create({
       data: {
         h2: "KNOCK CLIPPER",
         p: "Adjustable hard & soft clipper module from KNOCK.",
