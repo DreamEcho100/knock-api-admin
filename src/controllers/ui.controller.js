@@ -714,6 +714,7 @@ exports.editKnockPage = async (req, res) => {
         break;
       case "forthSection-knock":
         delete req.body.sectionId;
+        delete req.body.tradeMark;
         await prisma.forth_section_knock_page.update({
           where: { id: 1 },
           data: {
@@ -959,7 +960,8 @@ exports.editKnockClipperPage = async (req, res) => {
         break;
       case "thirdSection-knockclipper":
         delete req.body.sectionId;
-        const response = await prisma.third_section_knock_clipper_page.update({
+        delete req.body.buttonUrl;
+        await prisma.third_section_knock_clipper_page.update({
           where: { id: 1 },
           data: {
             ...req.body,
