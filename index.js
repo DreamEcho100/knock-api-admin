@@ -488,7 +488,7 @@ const initFAQPage = async () => {
   await prisma.faq_page.create({
     data: {
       h2: "ARE YOUR PLUGINS COMPATIBLE WITH MY DAW?",
-      p: "Our plugins are compatible with every DAW that supports VST3, AU or AAX plugin formats. Please note that VST2 is not supported. This includes the latest versions of: Ableton Live, FL Studio, Pro Tools, Logic, Bitwig Studio, Reaper, Studio One, and others.",
+      p: "Our plugins are compatible with every DAW that supports VST3, AU or AAX plugin formats. Please note that VST2 is not supported. This includes the latest versions of: Ableton Live, FL Studio, Pro Tools, Logic Studio, Reaper, Studio One, and others.",
       answer_type: "answer",
     },
   });
@@ -541,6 +541,1202 @@ const initFAQPage = async () => {
   });
 };
 
+const initDTKproduct = async () => {
+  const isDTKproduct = await prisma.dtk_product.findMany();
+
+  if (isDTKproduct.length) {
+    return;
+  }
+
+  await prisma.dtk_product.create({
+    data: {
+      handle: "melodies-that-knock-vol-1",
+      fileCount: 0,
+      description: {
+        create: {
+          text: "DECAP - Melodies That Knock Vol. 1 melodic sample pack. This kit is perfectly paired with Drums That Knock.",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/du81OLTutOc",
+              srcImage:
+                "https://img.youtube.com/vi/du81OLTutOc/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "14 original samples composed by DECAP",
+            },
+            {
+              li: "Every sound from each sample is isolated into individual stems (73 total stems)",
+            },
+            {
+              li: "All samples are labeled with tempo, and key, and ready to drop right into your DAW. No editing required.",
+            },
+            {
+              li: "All samples can be re-arranged, chopped, flipped, stretched, etc",
+            },
+            {
+              li: "Samples and stems are in high quality 44.1kHz/32bit format",
+            },
+            {
+              li: "2.48gb of top notch content",
+            },
+            {
+              li: "Compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+            {
+              li: "Contact info for sample clearance contained in download file. Clearance is guaranteed.",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "melodies-that-knock-vol-2-free-download",
+      fileCount: 0,
+      description: {
+        create: {
+          text: "DECAP - Melodies That Knock Vol. 2 melodic sample pack. This kit is perfectly paired with Drums That Knock.",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/T64PcrQaC-A",
+              srcImage: "https://img.youtube.com/vi/T64PcrQaC-A/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "10 original samples composed by DECAP",
+            },
+            {
+              li: "All samples are labeled with tempo, and key, and ready to drop right into your DAW. No editing required.",
+            },
+            {
+              li: "All samples can be re-arranged, chopped, flipped, stretched, etc",
+            },
+            {
+              li: "Samples and stems are in high quality 44.1kHz/24bit format",
+            },
+            {
+              li: "Compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+            {
+              li: "Contact info for sample clearance contained in download file. Clearance is guaranteed.",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-1",
+      fileCount: 95,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 1",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/EduPz5KmANk",
+              srcImage: "https://img.youtube.com/vi/EduPz5KmANk/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "10 808s",
+            },
+            {
+              li: "14 Kicks",
+            },
+            {
+              li: "14 Snares",
+            },
+            {
+              li: "12 Hihats",
+            },
+            {
+              li: "20 Loops",
+            },
+            {
+              li: "25 Percussion + Other",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-2",
+      fileCount: 105,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 2",
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "10 808s",
+            },
+            {
+              li: "20 Kicks",
+            },
+            {
+              li: "20 Snares",
+            },
+            {
+              li: "25 loopsforbeats",
+            },
+            {
+              li: "20 Hihats",
+            },
+            {
+              li: "25 Shouts",
+            },
+            {
+              li: "25 Textures",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-3",
+      fileCount: 154,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 3",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/23e9wz11lqA",
+              srcImage: "https://img.youtube.com/vi/23e9wz11lqA/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "10 808s",
+            },
+            {
+              li: "20 Kicks",
+            },
+            {
+              li: "20 Snares",
+            },
+            {
+              li: "25 loopsforbeats",
+            },
+            {
+              li: "20 Hihats",
+            },
+            {
+              li: "25 Shouts",
+            },
+            {
+              li: "25 Textures",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-4",
+      fileCount: 132,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 4",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/zXklcm6yYdk",
+              srcImage: "https://img.youtube.com/vi/zXklcm6yYdk/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "13 Analog 808s",
+            },
+            {
+              li: "23 Kicks",
+            },
+            {
+              li: "19 Snares",
+            },
+            {
+              li: "8 Hihats",
+            },
+            {
+              li: "19 Melodic Loops",
+            },
+            {
+              li: "14 Percussion One Shots",
+            },
+            {
+              li: "22 Shouts",
+            },
+            {
+              li: "14 Textures",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-5",
+      fileCount: 190,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 5",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/Vrn2jOXbtXU",
+              srcImage: "https://img.youtube.com/vi/Vrn2jOXbtXU/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "16 808s and Bass Sounds",
+            },
+            {
+              li: "18 Kicks",
+            },
+            {
+              li: "24 Snares",
+            },
+            {
+              li: "13 Hihats",
+            },
+            {
+              li: "35 Shouts",
+            },
+            {
+              li: "9 Hihat Loops",
+            },
+            {
+              li: "23 Percussion Loops",
+            },
+            {
+              li: "29 One Shots + Textures",
+            },
+            {
+              li: "17 Melodic Loops",
+            },
+            {
+              li: "6 Drum Loops",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-6",
+      fileCount: 229,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 6",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/aDbjb5wlos0",
+              srcImage: "https://img.youtube.com/vi/aDbjb5wlos0/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "13 808s",
+            },
+            {
+              li: "21 Kicks",
+            },
+            {
+              li: "28 Snares + Claps",
+            },
+            {
+              li: "26 Hihats",
+            },
+            {
+              li: "41 Shouts + Chants + Rap Vocal Loops",
+            },
+            {
+              li: "15 Hihat + Percussion Loops",
+            },
+            {
+              li: "22 Melodic Loops",
+            },
+            {
+              li: "11 MIDI Files",
+            },
+            {
+              li: "34 Melodic + Percussive One Shots",
+            },
+            {
+              li: "12 Textures",
+            },
+            {
+              li: "6 Drum Loops",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-7",
+      fileCount: 337,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol.7 is now available, with top notch original sounds for use in your production.",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/OrXT2MpwHEg",
+              srcImage: "https://img.youtube.com/vi/OrXT2MpwHEg/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "15 808s + Bass",
+            },
+            {
+              li: "12 Drum loops",
+            },
+            {
+              li: "17 Fills",
+            },
+            {
+              li: "16 Hihat loops",
+            },
+            {
+              li: "25 Hihats + Shakers + Crashes",
+            },
+            {
+              li: "27 Kicks",
+            },
+            {
+              li: "16 Melodic loops",
+            },
+            {
+              li: "6 MIDI files",
+            },
+            {
+              li: "52 Melodic one shots",
+            },
+            {
+              li: "70 Percussive one shots",
+            },
+            {
+              li: "20 Percussion loops",
+            },
+            {
+              li: "2 Rap vocal loops",
+            },
+            {
+              li: "36 Shouts + ad-libs",
+            },
+            {
+              li: "23 Snares + claps",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-8",
+      fileCount: 361,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 8 is now available, with top notch original sounds for your production.",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/YNKkxd2aPzI",
+              srcImage: "https://img.youtube.com/vi/YNKkxd2aPzI/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "23 808s + Bass",
+            },
+            {
+              li: "26 Drum loops",
+            },
+            {
+              li: "28 FX",
+            },
+            {
+              li: "23 Hihat loops",
+            },
+            {
+              li: "17 Hihats",
+            },
+            {
+              li: "28 Kicks",
+            },
+            {
+              li: "21 Melodic loops",
+            },
+            {
+              li: "10 MIDI files",
+            },
+            {
+              li: "30 Melodic one shots",
+            },
+            {
+              li: "36 Percussive one shots",
+            },
+            {
+              li: "41 Percussion loops",
+            },
+            {
+              li: "11 Rap vocal loops",
+            },
+            {
+              li: "24 Shouts + ad-libs",
+            },
+            {
+              li: "30 Snares + claps",
+            },
+            {
+              li: "Rimshots",
+            },
+            {
+              li: "5  Textures",
+            },
+            {
+              li: "8  Toms",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-vol-9",
+      fileCount: 453,
+      description: {
+        create: {
+          text: "DECAP - Drums That Knock Vol. 8 is now available, with top notch original sounds for your production.",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/j1Fj0gm2GXE",
+              srcImage: "https://img.youtube.com/vi/j1Fj0gm2GXE/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with the tempo and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are 24bit/44.1kHz format",
+            },
+            {
+              li: "Drums That Knock is compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "23 808s + Bass",
+            },
+            {
+              li: "27 Kicks",
+            },
+            {
+              li: "32 Snares + Claps",
+            },
+            {
+              li: "Rimshots",
+            },
+            {
+              li: "38 Hihats",
+            },
+            {
+              li: "28 Drum Loops",
+            },
+            {
+              li: "54 Percussive One Shots",
+            },
+            {
+              li: "40 Percussion Loops",
+            },
+            {
+              li: "28 Melodic One Shots",
+            },
+            {
+              li: "31 Melodic Loops",
+            },
+            {
+              li: "36 FX One Shots",
+            },
+            {
+              li: "7 MIDI Files",
+            },
+            {
+              li: "16 Risers + Falls",
+            },
+            {
+              li: "9 Fills",
+            },
+            {
+              li: "22 Hihat Loops",
+            },
+            {
+              li: "8 Rap Vocal Loops",
+            },
+            {
+              li: "52 Shouts + Adlibs",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-free-download",
+      fileCount: 453,
+      description: {
+        create: {
+          text: "",
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free - no clearance required",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original and crafted from scratch (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with tempo, key, and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are in 24bit/44.1kHz format",
+            },
+            {
+              li: "All sounds and loops are compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "808s + Bas",
+            },
+            {
+              li: "Drum loops",
+            },
+            {
+              li: "Hihat loops",
+            },
+            {
+              li: "Hihats",
+            },
+            {
+              li: "Kicks",
+            },
+            {
+              li: "Melodic loops",
+            },
+            {
+              li: "Percussion loops",
+            },
+            {
+              li: "Risers",
+            },
+            {
+              li: "Shouts",
+            },
+            {
+              li: "Snares + Claps + Rimshots",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "drums-that-knock-x",
+      fileCount: 693,
+      description: {
+        create: {
+          text: "",
+        },
+      },
+      youtubeVideo: {
+        createMany: {
+          data: [
+            {
+              src: "https://www.youtube.com/embed/p-wek5z59IA",
+              srcImage: "https://img.youtube.com/vi/p-wek5z59IA/maxresdefault.jpg",
+              title: "",
+            },
+            {
+              src: "https://www.youtube.com/embed/KG1q81qR_b4",
+              srcImage: "https://img.youtube.com/vi/KG1q81qR_b4/maxresdefault.jpg",
+              title: "",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free - no clearance required",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through your mix",
+            },
+            {
+              li: "All sounds are 100% original and crafted from scratch (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with tempo, key, and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are in 24bit/44.1kHz format",
+            },
+            {
+              li: "All sounds and loops are compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, etc)",
+            },
+            {
+              li: "All 808s and One Shots are tuned to C for easy playability",
+            },
+            {
+              li: "Includes more sounds than any DTK kit ever!",
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "40 808's + Bass",
+            },
+            {
+              li: "13 Breakbeats",
+            },
+            {
+              li: "27 Drum Loops",
+            },
+            {
+              li: "15 Fills",
+            },
+            {
+              li: "23 Hihat Loops",
+            },
+            {
+              li: "43 Hihats",
+            },
+            {
+              li: "43 Kicks",
+            },
+            {
+              li: "15 KNOCK Presets",
+            },
+            {
+              li: "38 Melodic Loops",
+            },
+            {
+              li: "7 MIDI Files",
+            },
+            {
+              li: "36 Melodic One Shots",
+            },
+            {
+              li: "200 Percussive One Shots",
+            },
+            {
+              li: "76 Percussion Loops",
+            },
+            {
+              li: "6 Rap Vocal Loops",
+            },
+            {
+              li: "18 Risers + Falls",
+            },
+            {
+              li: "53 Shouts + Ad-libs",
+            },
+            {
+              li: "40 Snares + Claps ",
+            },
+            {
+              li: "Rimshots",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "complete-knock-bundle-v2-all-digital-products",
+      fileCount: 0,
+      description: {
+        createMany: {
+          data: [
+            {
+              h3: "This is truly the last drum kit bundle you'll ever need!",
+              text: [
+                "This bundle features every digital product available on the Drums That Knock store, including Drums That Knock Limited Edition, which was previously only available for a short time during Black Friday 2021. You get 15 total products!",
+              ],
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "Drums That Knock Vol. 1",
+            },
+            {
+              li: "Drums That Knock Vol. 2",
+            },
+            {
+              li: "Drums That Knock Vol. 3",
+            },
+            {
+              li: "Drums That Knock Vol. 4",
+            },
+            {
+              li: "Drums That Knock Vol. 5",
+            },
+            {
+              li: "Drums That Knock Vol. 6",
+            },
+            {
+              li: "Drums That Knock Vol. 7",
+            },
+            {
+              li: "Drums That Knock Vol. 8",
+            },
+            {
+              li: "Drums That Knock Vol. 9",
+            },
+            {
+              li: "Drums That Knock X",
+            },
+            {
+              li: "Drums That Knock Free Vol. 1",
+            },
+            {
+              li: "Melodies That Knock Vol. 1",
+            },
+            {
+              li: "Melodies That Knock Vol. 2",
+            },
+            {
+              li: "DECAP Ableton Live Masterclass",
+            },
+            {
+              li: "Drums That Knock Limited Edition",
+            },
+          ],
+        },
+      },
+    },
+  });
+  await prisma.dtk_product.create({
+    data: {
+      handle: "decap-ableton-live-masterclass",
+      fileCount: 0,
+      description: {
+        createMany: {
+          data: [
+            {
+              h3: "DECAP - Ableton Masterclass",
+              text: [
+                "Level: Intermediate / Advanced",
+                "In this live 47 minute deep dive Masterclass, DECAP (Billboard Top 10, Platinum Certified Producer) dives into some intermediate / advanced production and sound design techniques during the track breakdown of his release 'Who's There?!'.",
+              ],
+            },
+          ],
+        },
+      },
+      youtubeVideo: {
+        create: {
+          src: "https://www.youtube.com/embed/LwIgcY5CpjI",
+          srcImage: "https://img.youtube.com/vi/LwIgcY5CpjI/maxresdefault.jpg",
+          title: "Free Preview",
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "0:00-4:00 Introduction",
+            },
+            {
+              li: "4:17-10:50 Kick sound design from scratch, Hi hat sound design from scratch in operator, drum arrangement",
+            },
+            {
+              li: "10:50-15:54 808 bass sound design in wavetable, 808 processing",
+            },
+            {
+              li: "15:54-17:13 Going with the creative flow, feel the energy",
+            },
+            {
+              li: "17:20-18:05 Add width to 808",
+            },
+            {
+              li: "18:20-21:28 Making sound fx in wavetable",
+            },
+            {
+              li: "21:28-24:41 Finding the sweet spot, creative sound design, no limits",
+            },
+            {
+              li: "24:54-25:43 Vocal chops",
+            },
+            {
+              li: "25:43-28:34 Pluck sound design from scratch in Wavetable",
+            },
+            {
+              li: "28:45-30:58 Bridge section, pitching vocals, rhodes fx, sidechain compression",
+            },
+            {
+              li: "30:58-32:44 Vocal chain: How to make a bad vocal sound good",
+            },
+            {
+              li: "32:44-35:48 Building up the intro with FX, frequency shifter",
+            },
+            {
+              li: "35:55-38:24 Master chain + explanation",
+            },
+            {
+              li: "38:35-41:24 Proper stereo imaging explained",
+            },
+            {
+              li: "41:39-43:36 Balancing productivity and creative sound design",
+            },
+            {
+              li: "43:46-44:44 Why I don't layer drums, how to layer properly if you do",
+            },
+            {
+              li: "44:44-End Learn the rules to break them",
+            },
+          ],
+        },
+      },
+    },
+  });
+};
+
 createAdmin();
 initBanner();
 initMainSection();
@@ -550,3 +1746,4 @@ initKnockPage();
 initKnockClipperPage();
 initDTKPage();
 initFAQPage();
+initDTKproduct();

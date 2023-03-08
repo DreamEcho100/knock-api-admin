@@ -594,6 +594,9 @@ exports.getKnockPage = async (req, res) => {
             p: true,
             third_section_knock_page: true,
           },
+          orderBy: {
+            id: "asc",
+          },
         },
       },
     });
@@ -804,6 +807,85 @@ exports.editKnockPage = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Section changed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addKnockReview = async (req, res) => {
+  try {
+    const { sectionId, review, reviewBy, alt } = req.body;
+
+    if (!review || !reviewBy) {
+      throw new Error("Please fill information");
+    }
+    const path = req.file?.path.split("public");
+
+    switch (sectionId) {
+      case "sixSection-knock":
+        await prisma.six_section_knock_page_content.create({
+          data: {
+            review,
+            reviewBy,
+            alt,
+            imageUrl: path ? path[1] : "",
+            six_section_knock_page_id: 1,
+          },
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "review was added successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeKnockReview = async (req, res) => {
+  try {
+    if (!req.query.id || !req.query.page) {
+      throw new Error("review id not found");
+    }
+
+    switch (req.query.page) {
+      case "knockpage":
+        await prisma.six_section_knock_page_content.delete({
+          where: {
+            id: parseInt(req.query.id),
+          },
+        });
+        break;
+
+      case "dtk":
+        await prisma.review_section_dtk_page_content.delete({
+          where: {
+            id: parseInt(req.query.id),
+          },
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "review was removed successfully",
     });
   } catch (error) {
     console.log(error.message);
@@ -1272,6 +1354,440 @@ exports.uploadDTKImages = async (req, res) => {
         message: "image uploaded successfully",
       });
     }
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addArtist = async (req, res) => {
+  try {
+    const { name, sectionId } = req.body;
+
+    if (!name || !sectionId) {
+      throw new Error("Please Fill information");
+    }
+
+    const path = req.file.path.split("public");
+
+    await prisma.artist_section_dtk_page_content.create({
+      data: {
+        name,
+        imageUrl: path ? path[1] : "",
+        artist_section_dtk_pageId: 1,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "artist added successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// DTK product
+
+exports.getDTKproduct = async (req, res) => {
+  try {
+    const DTKproduct = await prisma.dtk_product.findFirst({
+      where: {
+        handle: req.query.productHandle,
+      },
+      select: {
+        id: true,
+        handle: true,
+        fileCount: true,
+        description: {
+          select: {
+            id: true,
+            text: true,
+            h3: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        features: {
+          select: {
+            id: true,
+            li: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        youtubeVideo: {
+          select: {
+            id: true,
+            src: true,
+            srcImage: true,
+            title: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        filesIncluded: {
+          select: {
+            id: true,
+            li: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "",
+      DTKproduct,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addDTKfeature = async (req, res) => {
+  const productId = await prisma.dtk_product.findFirst({
+    where: {
+      handle: req.body.handle,
+    },
+  });
+
+  try {
+    if (!req.body.li) {
+      throw new Error("Please fill information!");
+    }
+
+    await prisma.features_dtk.create({
+      data: {
+        li: req.body.li,
+        dtk_productId: productId?.id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Feature added successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeDTKfeature = async (req, res) => {
+  try {
+    if (!req.query.handle || !req.query.id) {
+      throw new Error("Handle name & id not found");
+    }
+
+    const dtkproduct = await prisma.dtk_product.findFirst({
+      where: {
+        handle: req.query.handle,
+      },
+    });
+
+    const feature = await prisma.features_dtk.findMany({
+      where: {
+        dtk_productId: dtkproduct?.id,
+      },
+    });
+
+    const featureId = feature.filter((el) => el.id === parseInt(req.query.id));
+
+    await prisma.features_dtk.delete({
+      where: {
+        id: featureId[0].id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Feature removed successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addFilesIncluded = async (req, res) => {
+  const productId = await prisma.dtk_product.findFirst({
+    where: {
+      handle: req.body.handle,
+    },
+  });
+  try {
+    if (!req.body.li) {
+      throw new Error("Please fill information!");
+    }
+    await prisma.files_included.create({
+      data: {
+        li: req.body.li,
+        dtk_productId: productId?.id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "files included added successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeFilesIncluded = async (req, res) => {
+  try {
+    if (!req.query.handle || !req.query.id) {
+      throw new Error("Handle name & id not found");
+    }
+
+    const dtkproduct = await prisma.dtk_product.findFirst({
+      where: {
+        handle: req.query.handle,
+      },
+    });
+
+    const filesInclude = await prisma.files_included.findMany({
+      where: {
+        dtk_productId: dtkproduct?.id,
+      },
+    });
+
+    const filesIncludeId = filesInclude.filter(
+      (el) => el.id === parseInt(req.query.id)
+    );
+
+    await prisma.files_included.delete({
+      where: {
+        id: filesIncludeId[0].id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Files include removed successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addYoutubeVideo = async (req, res) => {
+  const productId = await prisma.dtk_product.findFirst({
+    where: {
+      handle: req.body.handle,
+    },
+  });
+  try {
+    if (!req.body.src || !req.body.srcImage) {
+      throw new Error("Please fill information!");
+    }
+    await prisma.youtube_video.create({
+      data: {
+        src: req.body.src,
+        srcImage: req.body.srcImage,
+        title: req.body.title,
+        dtk_productId: productId?.id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Youtube video added successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+exports.removeYoutubeVideo = async (req, res) => {
+  try {
+    if (!req.query.handle || !req.query.id) {
+      throw new Error("Handle name & id not found");
+    }
+
+    const dtkproduct = await prisma.dtk_product.findFirst({
+      where: {
+        handle: req.query.handle,
+      },
+    });
+
+    const youtube = await prisma.youtube_video.findMany({
+      where: {
+        dtk_productId: dtkproduct?.id,
+      },
+    });
+
+    const youtubeId = youtube.filter((el) => el.id === parseInt(req.query.id));
+
+    await prisma.youtube_video.delete({
+      where: {
+        id: youtubeId[0].id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Youtube video removed successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+exports.editDTKproduct = async (req, res) => {
+  try {
+    let { type } = req.body;
+
+    switch (type) {
+      case "description":
+        await prisma.description_dtk.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            h3: req.body.h3,
+            text: [req.body.text1, req.body.text2 ? req.body.text2 : ""],
+          },
+        });
+        break;
+      case "feature":
+        await prisma.features_dtk.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            li: req.body.li,
+          },
+        });
+        break;
+      case "youtube":
+        await prisma.youtube_video.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            src: req.body.src,
+            srcImage: req.body.srcImage,
+            title: req.body.title,
+          },
+        });
+        break;
+      case "filesInclude":
+        await prisma.files_included.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            li: {
+              set: req.body.li,
+            },
+          },
+        });
+        break;
+      default:
+        break;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Section changed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeArtist = async (req, res) => {
+  try {
+    if (!req.query.id) {
+      throw new Error("id not found");
+    }
+
+    await prisma.artist_section_dtk_page_content.delete({
+      where: {
+        id: parseInt(req.query.id),
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "artist removed successfully",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addDTKreview = async (req, res) => {
+  try {
+    const { sectionId, review, reviewBy, alt } = req.body;
+
+    if (!review || !reviewBy) {
+      throw new Error("Please fill information");
+    }
+    const path = req.file?.path.split("public");
+
+    await prisma.review_section_dtk_page_content.create({
+      data: {
+        review,
+        reviewBy,
+        alt,
+        imageUrl: path ? path[1] : "",
+        review_section_dtk_page_id: 1,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "review was added successfully",
+    });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({

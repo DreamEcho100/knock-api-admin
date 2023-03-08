@@ -391,6 +391,49 @@ model faq_list {
   faqId    Int?
 }
 
+// ------------------------------------ DTK product -------------------------------------
+
+model dtk_product {
+  id            Int               @id @default(autoincrement())
+  handle        String
+  fileCount     Int?
+  description   description_dtk[]
+  features      features_dtk[]
+  filesIncluded files_included[]
+  youtubeVideo  youtube_video[]
+}
+
+model features_dtk {
+  id            Int          @id @default(autoincrement())
+  li            String
+  dtk_product   dtk_product? @relation(fields: [dtk_productId], references: [id])
+  dtk_productId Int?
+}
+
+model files_included {
+  id            Int          @id @default(autoincrement())
+  li            String
+  dtk_product   dtk_product? @relation(fields: [dtk_productId], references: [id])
+  dtk_productId Int?
+}
+
+model youtube_video {
+  id            Int          @id @default(autoincrement())
+  src           String
+  srcImage      String
+  title         String?
+  dtk_product   dtk_product? @relation(fields: [dtk_productId], references: [id])
+  dtk_productId Int?
+}
+
+model description_dtk {
+  id            Int          @id @default(autoincrement())
+  h3            String?
+  text          String[]
+  dtk_product   dtk_product? @relation(fields: [dtk_productId], references: [id])
+  dtk_productId Int?
+}
+
 // --------------------------------------------------------------------------------------
 model verification_codes {
   id         Int      @id @default(autoincrement())
