@@ -1370,6 +1370,9 @@ exports.addArtist = async (req, res) => {
     if (!name || !sectionId) {
       throw new Error("Please Fill information");
     }
+    if (!req.file) {
+      throw new Error("Please Select photo");
+    }
 
     const path = req.file.path.split("public");
 
