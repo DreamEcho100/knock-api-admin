@@ -1195,6 +1195,7 @@ exports.getDTK = async (req, res) => {
         button: true,
         imageUrl: true,
         buttonUrl: true,
+        h2: true,
       },
     });
 
