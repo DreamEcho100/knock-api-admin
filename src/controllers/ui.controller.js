@@ -1883,3 +1883,875 @@ exports.editFAQ = async (req, res) => {
     });
   }
 };
+
+// Terms Of Service
+
+exports.getTermsOfService = async (req, res) => {
+  try {
+    const termsOfService = await prisma.terms_of_service.findMany({
+      select: {
+        id: true,
+        h3: true,
+        p: {
+          select: {
+            id: true,
+            text: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "",
+      termsOfService,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.editTermsOfService = async (req, res) => {
+  try {
+    const { textId, termSectionId, h3, text } = req.body;
+
+    if (h3) {
+      await prisma.terms_of_service.update({
+        where: {
+          id: termSectionId,
+        },
+        data: {
+          h3,
+        },
+      });
+    }
+    if (text) {
+      await prisma.terms_of_service.update({
+        where: {
+          id: termSectionId,
+        },
+        data: {
+          p: {
+            update: {
+              where: {
+                id: textId,
+              },
+              data: {
+                text,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Section changed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Shipping Policy
+
+exports.getShippingPolicy = async (req, res) => {
+  try {
+    const ShippingPolicy = await prisma.shipping_policy.findMany({
+      select: {
+        id: true,
+        h2: true,
+        h2s: true,
+        p: true,
+        p2: true,
+        ul: {
+          select: {
+            id: true,
+            li: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "",
+      ShippingPolicy,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.editShippingPolicy = async (req, res) => {
+  try {
+    const { id, sectionId, h2, h2s, p, p2, li } = req.body;
+
+    if (h2) {
+      await prisma.shipping_policy.update({
+        where: {
+          id,
+        },
+        data: {
+          h2,
+          h2s,
+          p,
+          p2,
+        },
+      });
+    }
+    if (li) {
+      await prisma.shipping_policy.update({
+        where: {
+          id: sectionId,
+        },
+        data: {
+          ul: {
+            update: {
+              where: {
+                id,
+              },
+              data: {
+                li,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Section changed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Refund Policy
+
+exports.getRefundPolicy = async (req, res) => {
+  try {
+    const RefundPolicy = await prisma.refund_policy.findUnique({
+      where: {
+        id: 1,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "",
+      RefundPolicy,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.editRefundPolicy = async (req, res) => {
+  try {
+    const { h2, p } = req.body;
+
+    await prisma.refund_policy.update({
+      where: {
+        id: 1,
+      },
+      data: {
+        h2,
+        p,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Section changed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Privacy Policy
+
+exports.getPrivacyPolicy = async (req, res) => {
+  try {
+    const PrivacyPolicy = await prisma.privacy_policy.findUnique({
+      where: {
+        id: 1,
+      },
+      select: {
+        id: true,
+        head: true,
+        head2: true,
+        collecting: {
+          select: {
+            id: true,
+            h2: true,
+            p: true,
+            u: true,
+            u2: true,
+            li: {
+              select: {
+                id: true,
+                text: true,
+                strong: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            li2: {
+              select: {
+                id: true,
+                strong: true,
+                text: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+        },
+        minors: {
+          select: {
+            id: true,
+            h3: true,
+            p: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        sharing: {
+          select: {
+            id: true,
+            h2: true,
+            p: true,
+            ul: {
+              select: {
+                id: true,
+                li: true,
+                a: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+        },
+        behavioural: {
+          select: {
+            id: true,
+            h3: true,
+            p: {
+              select: {
+                id: true,
+                text: true,
+                a: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            p2: true,
+            ul: {
+              select: {
+                id: true,
+                li: true,
+                a: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            a: true,
+            ul2: {
+              select: {
+                id: true,
+                li: true,
+                em: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+        },
+        personal: {
+          select: {
+            id: true,
+            h2: true,
+            p: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        lawfulBasis: {
+          select: {
+            id: true,
+            p: true,
+            h3: true,
+            ul: {
+              select: {
+                id: true,
+                li: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+        },
+        retention: {
+          select: {
+            id: true,
+            h3: true,
+            p: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        automatic: {
+          select: {
+            id: true,
+            h3: true,
+            p: {
+              select: {
+                id: true,
+                text: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            ul: {
+              select: {
+                id: true,
+                text: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+        },
+        yourRights: {
+          select: {
+            id: true,
+            h2: true,
+            h3: true,
+            p: {
+              select: {
+                id: true,
+                em: true,
+                text: true,
+                a: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        ccpa: {
+          select: {
+            id: true,
+            h3: true,
+            p: {
+              select: {
+                id: true,
+                text: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        cookies: {
+          select: {
+            id: true,
+            h2: true,
+            p: {
+              select: {
+                id: true,
+                text: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        necessary: {
+          select: {
+            id: true,
+            h3: true,
+            table: {
+              select: {
+                id: true,
+                td: true,
+                em: true,
+                strong: true,
+                strong2: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        analytics: {
+          select: {
+            id: true,
+            h3: true,
+            em: true,
+            p: {
+              select: {
+                id: true,
+                p: true,
+                a: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            table: {
+              select: {
+                id: true,
+                strong: true,
+                strong2: true,
+                em: true,
+                td: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        doNotTrack: {
+          select: {
+            id: true,
+            h3: true,
+            p: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        changes: {
+          select: {
+            id: true,
+            h2: true,
+            p: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+        contact: {
+          select: {
+            id: true,
+            h2: true,
+            p: {
+              select: {
+                id: true,
+                text: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            p2: {
+              select: {
+                id: true,
+                text: true,
+                em: true,
+                a: true,
+              },
+              orderBy: {
+                id: "asc",
+              },
+            },
+            em: true,
+          },
+          orderBy: {
+            id: "asc",
+          },
+        },
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      message: "",
+      PrivacyPolicy,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.editPrivacyPolicy = async (req, res) => {
+  try {
+    switch (req.body.sectionId) {
+      case "head":
+        await prisma.privacy_policy.update({
+          where: {
+            id: 1,
+          },
+          data: {
+            head: req.body.head,
+            head2: req.body.head2,
+          },
+        });
+        break;
+      case "collecting":
+        await prisma.privacy_policy_collecting.update({
+          where: {
+            id: 1,
+          },
+          data: {
+            h2: req.body.h2,
+            p: req.body.p,
+            u: req.body.u,
+            u2: req.body.u2,
+          },
+        });
+        break;
+      case "collecting-li":
+        await prisma.privacy_policy_collecting_li.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            strong: req.body.strong,
+            text: req.body.text,
+          },
+        });
+        break;
+      case "collecting-li2":
+        await prisma.privacy_policy_collecting_li.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            strong: req.body.strong,
+            text: req.body.text,
+          },
+        });
+        break;
+      case "minors":
+        await prisma.privacy_policy_minors.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            h3: req.body.h3,
+            p: req.body.p,
+          },
+        });
+        break;
+      case "sharing-ul":
+        await prisma.privacy_policy_sharing_ul.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            li: req.body.li,
+            a: req.body.a,
+          },
+        });
+        break;
+      case "behavioural-ul":
+        await prisma.privacy_policy_behavioural_ul.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            li: req.body.li,
+            a: req.body.a,
+          },
+        });
+        break;
+      case "behavioural-ul2":
+        await prisma.privacy_policy_behavioural_ul2.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            em: req.body.em,
+            li: req.body.li,
+          },
+        });
+        break;
+      case "behavioural-p":
+        await prisma.privacy_policy_behavioural_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+            a: req.body.a,
+          },
+        });
+        break;
+      case "personal":
+        await prisma.privacy_policy_personal_information.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            h2: req.body.h2,
+            p: req.body.p,
+          },
+        });
+        break;
+      case "lawful":
+        await prisma.privacy_policy_lawful_basis.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            h3: req.body.h3,
+            p: req.body.p,
+          },
+        });
+        break;
+      case "lawfulBasis-ul":
+        await prisma.privacy_policy_lawful_basis_ul.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            li: req.body.li,
+          },
+        });
+        break;
+      case "retention":
+        await prisma.privacy_policy_retention.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            h3: req.body.h3,
+            p: req.body.p,
+          },
+        });
+        break;
+      case "automatic-p":
+        await prisma.privacy_policy_automatic_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+          },
+        });
+        break;
+      case "automatic-ul":
+        await prisma.privacy_policy_automatic_li.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+          },
+        });
+        break;
+      case "yourrights-p":
+        await prisma.privacy_policy_your_rights_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+            em: req.body.em,
+            a: req.body.a,
+          },
+        });
+        break;
+      case "ccpa-p":
+        await prisma.privacy_policy_ccpa_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+          },
+        });
+        break;
+      case "cookies-p":
+        await prisma.privacy_policy_cookies_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+          },
+        });
+        break;
+      case "necessary-th":
+      case "necessary-tr":
+        await prisma.privacy_policy_cookies_necessary_table.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            strong: req.body.strong,
+            strong2: req.body.strong2,
+            td: req.body.td,
+            em: req.body.em,
+          },
+        });
+        break;
+      case "analytics-th":
+      case "analytics-tr":
+        await prisma.privacy_policy_cookies_analytics_table.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            strong: req.body.strong,
+            strong2: req.body.strong2,
+            td: req.body.td,
+            em: req.body.em,
+          },
+        });
+        break;
+      case "analytics-p":
+        await prisma.privacy_policy_cookies_analytics_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            p: req.body.text,
+            a: req.body.a,
+          },
+        });
+        break;
+      case "do-not-track":
+        await prisma.privacy_policy_do_not_track.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            p: req.body.p,
+            h3: req.body.h3,
+          },
+        });
+        break;
+      case "changes":
+        await prisma.privacy_policy_changes.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            p: req.body.p,
+            h2: req.body.h2,
+          },
+        });
+        break;
+      case "contact-p":
+        await prisma.privacy_policy_contact_p.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+          },
+        });
+        break;
+      case "contact-em":
+        await prisma.privacy_policy_contact.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            em: req.body.em,
+          },
+        });
+        break;
+      case "contact-p2":
+        await prisma.privacy_policy_contact_p2.update({
+          where: {
+            id: req.body.id,
+          },
+          data: {
+            text: req.body.text,
+            em: req.body.em,
+          },
+        });
+        break;
+      default:
+        break;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Section changed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

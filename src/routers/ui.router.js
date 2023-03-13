@@ -170,4 +170,21 @@ router.delete("/remove-artist", isAuth, uiController.removeArtist);
 router.get("/get-FAQ", uiController.getFAQ);
 router.put("/edit-FAQ", isAuth, uiController.editFAQ);
 
+// Terms of service
+
+router.get("/get-terms-of-service", uiController.getTermsOfService);
+router.put("/edit-terms-of-service", isAuth, uiController.editTermsOfService);
+
+// Shipping policy
+
+router.get("/get-shipping-policy", uiController.getShippingPolicy);
+router.put("/edit-shipping-policy", isAuth, uiController.editShippingPolicy);
+
+// Refund policy
+
+router.get("/get-privacy-policy", uiController.getPrivacyPolicy);
+router.put("/edit-privacy-policy", isAuth, uiController.editPrivacyPolicy);
+
+
+
 module.exports = router;

@@ -434,6 +434,351 @@ model description_dtk {
   dtk_productId Int?
 }
 
+// --------------------------------- Terms of service -----------------------------------
+
+model terms_of_service {
+  id Int                  @id @default(autoincrement())
+  h3 String
+  p  terms_of_service_p[]
+}
+
+model terms_of_service_p {
+  id                 Int               @id @default(autoincrement())
+  text               String
+  terms_of_service   terms_of_service? @relation(fields: [terms_of_serviceId], references: [id])
+  terms_of_serviceId Int?
+}
+
+// ---------------------------------- Shipping Policy ----------------------------------
+
+model shipping_policy {
+  id  Int                  @id @default(autoincrement())
+  h2  String
+  h2s String
+  p   String
+  p2  String
+  ul  shipping_policy_ul[]
+}
+
+model shipping_policy_ul {
+  id                Int              @id @default(autoincrement())
+  li                String
+  shipping_policy   shipping_policy? @relation(fields: [shipping_policyId], references: [id])
+  shipping_policyId Int?
+}
+
+// --------------------------------- Refund Policy ---------------------------------------
+
+model refund_policy {
+  id Int    @id @default(autoincrement())
+  h2 String
+  p  String
+}
+
+// ----------------------------------- Privacy Policy -----------------------------------
+
+model privacy_policy {
+  id          Int                                   @id @default(autoincrement())
+  head        String
+  head2       String
+  collecting  privacy_policy_collecting[]
+  minors      privacy_policy_minors[]
+  sharing     privacy_policy_sharing[]
+  behavioural privacy_policy_behavioural[]
+  personal    privacy_policy_personal_information[]
+  lawfulBasis privacy_policy_lawful_basis[]
+  retention   privacy_policy_retention[]
+  automatic   privacy_policy_automatic[]
+  yourRights  privacy_policy_your_rights[]
+  ccpa        privacy_policy_ccpa[]
+  cookies     privacy_policy_cookies[]
+  necessary   privacy_policy_cookies_necessary[]
+  analytics   privacy_policy_cookies_analytics[]
+  doNotTrack  privacy_policy_do_not_track[]
+  changes     privacy_policy_changes[]
+  contact     privacy_policy_contact[]
+}
+
+model privacy_policy_collecting {
+  id               Int                             @id @default(autoincrement())
+  h2               String
+  p                String
+  u                String
+  u2               String
+  li               privacy_policy_collecting_li[]
+  li2              privacy_policy_collecting_li2[]
+  privacy_policy   privacy_policy?                 @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_collecting_li {
+  id                          Int                        @id @default(autoincrement())
+  strong                      String
+  text                        String
+  privacy_policy_collecting   privacy_policy_collecting? @relation(fields: [privacy_policy_collectingId], references: [id])
+  privacy_policy_collectingId Int?
+}
+
+model privacy_policy_collecting_li2 {
+  id                          Int                        @id @default(autoincrement())
+  strong                      String
+  text                        String
+  privacy_policy_collecting   privacy_policy_collecting? @relation(fields: [privacy_policy_collectingId], references: [id])
+  privacy_policy_collectingId Int?
+}
+
+model privacy_policy_minors {
+  id               Int             @id @default(autoincrement())
+  h3               String
+  p                String
+  privacy_policy   privacy_policy? @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_sharing {
+  id               Int                         @id @default(autoincrement())
+  h2               String
+  p                String
+  ul               privacy_policy_sharing_ul[]
+  privacy_policy   privacy_policy?             @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_sharing_ul {
+  id                       Int                     @id @default(autoincrement())
+  li                       String
+  a                        String
+  privacy_policy_sharing   privacy_policy_sharing? @relation(fields: [privacy_policy_sharingId], references: [id])
+  privacy_policy_sharingId Int?
+}
+
+model privacy_policy_behavioural {
+  id               Int                              @id @default(autoincrement())
+  h3               String
+  p                privacy_policy_behavioural_p[]
+  p2               String
+  ul               privacy_policy_behavioural_ul[]
+  a                String
+  ul2              privacy_policy_behavioural_ul2[]
+  privacy_policy   privacy_policy?                  @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_behavioural_ul {
+  id                           Int                         @id @default(autoincrement())
+  li                           String
+  a                            String
+  privacy_policy_behavioural   privacy_policy_behavioural? @relation(fields: [privacy_policy_behaviouralId], references: [id])
+  privacy_policy_behaviouralId Int?
+}
+
+model privacy_policy_behavioural_p {
+  id                           Int                         @id @default(autoincrement())
+  text                         String
+  a                            String
+  privacy_policy_behavioural   privacy_policy_behavioural? @relation(fields: [privacy_policy_behaviouralId], references: [id])
+  privacy_policy_behaviouralId Int?
+}
+
+model privacy_policy_behavioural_ul2 {
+  id                           Int                         @id @default(autoincrement())
+  li                           String
+  em                           String
+  privacy_policy_behavioural   privacy_policy_behavioural? @relation(fields: [privacy_policy_behaviouralId], references: [id])
+  privacy_policy_behaviouralId Int?
+}
+
+model privacy_policy_personal_information {
+  id               Int             @id @default(autoincrement())
+  h2               String
+  p                String
+  privacy_policy   privacy_policy? @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_lawful_basis {
+  id               Int                              @id @default(autoincrement())
+  h3               String
+  p                String
+  ul               privacy_policy_lawful_basis_ul[]
+  privacy_policy   privacy_policy?                  @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_lawful_basis_ul {
+  id                            Int                          @id @default(autoincrement())
+  li                            String
+  privacy_policy_lawful_basis   privacy_policy_lawful_basis? @relation(fields: [privacy_policy_lawful_basisId], references: [id])
+  privacy_policy_lawful_basisId Int?
+}
+
+model privacy_policy_retention {
+  id               Int             @id @default(autoincrement())
+  h3               String
+  p                String
+  privacy_policy   privacy_policy? @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_automatic {
+  id               Int                           @id @default(autoincrement())
+  h3               String
+  p                privacy_policy_automatic_p[]
+  ul               privacy_policy_automatic_li[]
+  privacy_policy   privacy_policy?               @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_automatic_p {
+  id                         Int                       @id @default(autoincrement())
+  text                       String
+  privacy_policy_automatic   privacy_policy_automatic? @relation(fields: [privacy_policy_automaticId], references: [id])
+  privacy_policy_automaticId Int?
+}
+
+model privacy_policy_automatic_li {
+  id                         Int                       @id @default(autoincrement())
+  text                       String
+  privacy_policy_automatic   privacy_policy_automatic? @relation(fields: [privacy_policy_automaticId], references: [id])
+  privacy_policy_automaticId Int?
+}
+
+model privacy_policy_your_rights {
+  id               Int                            @id @default(autoincrement())
+  h2               String
+  h3               String
+  p                privacy_policy_your_rights_p[]
+  privacy_policy   privacy_policy?                @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_your_rights_p {
+  id                           Int                         @id @default(autoincrement())
+  text                         String
+  em                           String
+  a                            String
+  privacy_policy_your_rights   privacy_policy_your_rights? @relation(fields: [privacy_policy_your_rightsId], references: [id])
+  privacy_policy_your_rightsId Int?
+}
+
+model privacy_policy_ccpa {
+  id               Int                     @id @default(autoincrement())
+  h3               String
+  p                privacy_policy_ccpa_p[]
+  privacy_policy   privacy_policy?         @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_ccpa_p {
+  id                    Int                  @id @default(autoincrement())
+  text                  String
+  privacy_policy_ccpa   privacy_policy_ccpa? @relation(fields: [privacy_policy_ccpaId], references: [id])
+  privacy_policy_ccpaId Int?
+}
+
+model privacy_policy_cookies {
+  id               Int                        @id @default(autoincrement())
+  h2               String
+  p                privacy_policy_cookies_p[]
+  privacy_policy   privacy_policy?            @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_cookies_p {
+  id                       Int                     @id @default(autoincrement())
+  text                     String
+  privacy_policy_cookies   privacy_policy_cookies? @relation(fields: [privacy_policy_cookiesId], references: [id])
+  privacy_policy_cookiesId Int?
+}
+
+model privacy_policy_cookies_necessary {
+  id               Int                                      @id @default(autoincrement())
+  h3               String
+  table            privacy_policy_cookies_necessary_table[]
+  privacy_policy   privacy_policy?                          @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_cookies_necessary_table {
+  id                                 Int                               @id @default(autoincrement())
+  strong                             String?
+  strong2                            String?
+  em                                 String?
+  td                                 String?
+  privacy_policy_cookies_necessary   privacy_policy_cookies_necessary? @relation(fields: [privacy_policy_cookies_necessaryId], references: [id])
+  privacy_policy_cookies_necessaryId Int?
+}
+
+model privacy_policy_cookies_analytics {
+  id               Int                                      @id @default(autoincrement())
+  h3               String
+  em               String
+  p                privacy_policy_cookies_analytics_p[]
+  table            privacy_policy_cookies_analytics_table[]
+  privacy_policy   privacy_policy?                          @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_cookies_analytics_table {
+  id                                 Int                               @id @default(autoincrement())
+  strong                             String?
+  strong2                            String?
+  em                                 String?
+  td                                 String?
+  privacy_policy_cookies_analytics   privacy_policy_cookies_analytics? @relation(fields: [privacy_policy_cookies_analyticsId], references: [id])
+  privacy_policy_cookies_analyticsId Int?
+}
+
+model privacy_policy_cookies_analytics_p {
+  id                                 Int                               @id @default(autoincrement())
+  p                                  String
+  a                                  String
+  privacy_policy_cookies_analytics   privacy_policy_cookies_analytics? @relation(fields: [privacy_policy_cookies_analyticsId], references: [id])
+  privacy_policy_cookies_analyticsId Int?
+}
+
+model privacy_policy_do_not_track {
+  id               Int             @id @default(autoincrement())
+  h3               String
+  p                String
+  privacy_policy   privacy_policy? @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_changes {
+  id               Int             @id @default(autoincrement())
+  h2               String
+  p                String
+  privacy_policy   privacy_policy? @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_contact {
+  id               Int                         @id @default(autoincrement())
+  h2               String
+  p                privacy_policy_contact_p[]
+  em               String
+  p2               privacy_policy_contact_p2[]
+  privacy_policy   privacy_policy?             @relation(fields: [privacy_policyId], references: [id])
+  privacy_policyId Int?
+}
+
+model privacy_policy_contact_p {
+  id                       Int                     @id @default(autoincrement())
+  text                     String
+  privacy_policy_contact   privacy_policy_contact? @relation(fields: [privacy_policy_contactId], references: [id])
+  privacy_policy_contactId Int?
+}
+
+model privacy_policy_contact_p2 {
+  id                       Int                     @id @default(autoincrement())
+  text                     String
+  em                       String
+  a                        String
+  privacy_policy_contact   privacy_policy_contact? @relation(fields: [privacy_policy_contactId], references: [id])
+  privacy_policy_contactId Int?
+}
+
 // --------------------------------------------------------------------------------------
 model verification_codes {
   id         Int      @id @default(autoincrement())
