@@ -1877,6 +1877,9 @@ const initTermsOfService = async () => {
               text: "Certain products or services may be available exclusively online through the website. These products or services may have limited quantities and are subject to return or exchange only according to our Return Policy.",
             },
             {
+              text: "We have made every effort to display as accurately as possible the colors and images of our products that appear at the store. We cannot guarantee that your computer monitor's display of any color will be accurate.",
+            },
+            {
               text: "We reserve the right, but are not obligated, to limit the sales of our products or Services to any person, geographic region or jurisdiction. We may exercise this right on a case-by-case basis. We reserve the right to limit the quantities of any products or services that we offer. All descriptions of products or product pricing are subject to change at anytime without notice, at the sole discretion of us. We reserve the right to discontinue any product at any time. Any offer for any product or service made on this site is void where prohibited.",
             },
             {
@@ -2464,8 +2467,7 @@ const initPrivacyPolicy = async () => {
             createMany: {
               data: [
                 {
-                  text: `If you are a resident of California, you have the right to access the Personal Information we hold about you (also known as the 'Right to Know'), to port it to a new service, and to ask that your Personal Information be corrected, updated, or erased. If you would like to exercise these rights, please contact us through the contact information below.
-                If you would like to designate an authorized agent to submit these requests on your behalf, please contact us at the address below.`,
+                  text: `If you are a resident of California, you have the right to access the Personal Information we hold about you (also known as the 'Right to Know'), to port it to a new service, and to ask that your Personal Information be corrected, updated, or erased. If you would like to exercise these rights, please contact us through the contact information below.`,
                 },
                 {
                   text: "If you would like to designate an authorized agent to submit these requests on your behalf, please contact us at the address below.",

@@ -182,9 +182,12 @@ router.put("/edit-shipping-policy", isAuth, uiController.editShippingPolicy);
 
 // Refund policy
 
+router.get("/get-refund-policy", uiController.getRefundPolicy);
+router.put("/edit-refund-policy", isAuth, uiController.editRefundPolicy);
+
+// privacy policy
+
 router.get("/get-privacy-policy", uiController.getPrivacyPolicy);
 router.put("/edit-privacy-policy", isAuth, uiController.editPrivacyPolicy);
-
-
 
 module.exports = router;
