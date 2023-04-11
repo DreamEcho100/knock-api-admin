@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=prod node index.js --ext js,json",
-    "dev": "NODE_ENV=dev nodemon index.js --ext js,json"
+    "dev": "NODE_ENV=dev nodemon index.js --ext js,json",
+    "migrate": "npx prisma migrate dev"
   },
   "keywords": [],
   "author": "",

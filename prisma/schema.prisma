@@ -25,13 +25,14 @@ model users {
 }
 
 model banner {
-  id            Int     @id @default(autoincrement())
-  background    String
-  bannerUrl     String
-  bannerUrlText String
-  text          String
-  textColor     String
-  disable       Boolean
+  id                Int     @id @default(autoincrement())
+  background        String
+  bannerUrl         String
+  bannerUrlText     String
+  text              String
+  textColor         String
+  isAddToCartButton Boolean
+  disable           Boolean
 }
 
 model main_section {
@@ -324,6 +325,22 @@ model dtk_page {
   artist_section_dtk_page artist_section_dtk_page[]
   review_section_dtk_page reviews_section_dtk_page[]
   last_section_dtk_page   last_section_dtk_page[]
+}
+
+model dtk_main_section {
+  id        Int                  @id @default(autoincrement())
+  br        String
+  h2        String
+  tradeMark String
+  p         dtk_main_section_p[]
+}
+
+model dtk_main_section_p {
+  id                 Int               @id @default(autoincrement())
+  text               String
+  tradeMark          String?
+  dtk_main_section   dtk_main_section? @relation(fields: [dtk_main_sectionId], references: [id])
+  dtk_main_sectionId Int?
 }
 
 model artist_section_dtk_page {

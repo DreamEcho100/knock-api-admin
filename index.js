@@ -68,6 +68,7 @@ const initBanner = async () => {
         textColor: "white",
         bannerUrl: "/knock-clipper",
         bannerUrlText: "here",
+        isAddToCartButton: false,
         disable: false,
       },
     });
@@ -1748,6 +1749,38 @@ const initDTKproduct = async () => {
   });
 };
 
+const initDtkMainSection = async () => {
+  const DtkMainSection = await prisma.dtk_main_section.findMany();
+
+  if (DtkMainSection.length) {
+    return;
+  }
+
+  await prisma.dtk_main_section.create({
+    data: {
+      br: "DRUMS",
+      h2: "THAT",
+      tradeMark: "KNOCK",
+      p: {
+        createMany: {
+          data: [
+            {
+              text: "Designed from scratch by DECAP.",
+            },
+            {
+              text: "Premium quality, groundbreaking as always.",
+            },
+            {
+              text: "These drums",
+              tradeMark: "KNOCK",
+            },
+          ],
+        },
+      },
+    },
+  });
+};
+
 const initTermsOfService = async () => {
   const isTermsOfService = await prisma.terms_of_service.findMany();
 
@@ -2165,7 +2198,6 @@ const initShippingPolicy = async () => {
       h2s: "Physical Products",
       p: "You will be emailed a link to download the product you purchased after you complete checkout.",
       p2: "Usually, it takes 3-7 days to fulfill an order, after which it's shipped out. The shipping time depends on your location, but can be estimated as follows:",
-
       ul: {
         createMany: {
           data: [
@@ -2217,8 +2249,7 @@ const initPrivacyPolicy = async () => {
   await prisma.privacy_policy.create({
     data: {
       head: "This Privacy Policy describes how pluginsthatknock.com (the 'Site' or 'we')",
-      head2:
-        "collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.",
+      head2:"collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.",
       collecting: {
         create: {
           h2: "Collecting Personal Information",
@@ -2679,3 +2710,4 @@ initTermsOfService();
 initShippingPolicy();
 initRefundPolicy();
 initPrivacyPolicy();
+initDtkMainSection();

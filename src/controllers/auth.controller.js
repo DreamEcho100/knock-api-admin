@@ -2,19 +2,19 @@ const { default: validator } = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
-const { TOKEN_SECRET , EMAIL_ADMIN , MY_EMAIL_ADMIN} = process.env;
+const { TOKEN_SECRET, EMAIL_ADMIN, MY_EMAIL_ADMIN } = process.env;
 const { prisma } = require("../../prisma/prisma");
 const { generateVerificationCode } = require("../utils/generator");
 const SibApiV3Sdk = require("../utils/sendinblue");
 const { readHTMLFile } = require("../utils/htmlFileFunction");
-const path =require('path')
+const path = require("path");
 var handlebars = require("handlebars");
 
 exports.login = async (req, res) => {
   try {
     const { email, password, verificationCode } = req.body;
 
-    if (!email || !password , !verificationCode) {
+    if ((!email || !password, !verificationCode)) {
       throw new Error("Please check the information entered!");
     }
 
@@ -28,20 +28,24 @@ exports.login = async (req, res) => {
       throw new Error("User not existing!");
     }
 
-    const verificationCodeFound = await prisma.verification_codes.findFirst({where: {AND: {email, code:verificationCode}}});
-    
+    const verificationCodeFound = await prisma.verification_codes.findFirst({
+      where: { AND: { email, code: verificationCode } },
+    });
+
     if (!verificationCodeFound) {
-      throw new Error("Invalid verification code!")
+      throw new Error("Invalid verification code!");
     }
 
-    const isExpired = moment().isAfter(moment(verificationCodeFound.expiration));
+    const isExpired = moment().isAfter(
+      moment(verificationCodeFound.expiration)
+    );
 
     if (isExpired) {
-      await prisma.verification_codes.delete({where: {id: verificationCodeFound.id}});
-      throw new Error("Verification code expired!")      
+      await prisma.verification_codes.delete({
+        where: { id: verificationCodeFound.id },
+      });
+      throw new Error("Verification code expired!");
     }
-
-    
 
     let isPasswordMatch = await bcrypt.compare(password, user.password);
 
@@ -78,12 +82,10 @@ exports.login = async (req, res) => {
 };
 
 exports.sendVerificationCode = async (req, res) => {
-
-
   try {
-    let adminsEmail = await prisma.users.findMany()
-    adminsEmail = adminsEmail.map(el => el.email)
-    
+    let adminsEmail = await prisma.users.findMany();
+    adminsEmail = adminsEmail.map((el) => el.email);
+
     const { email } = req.body;
     const generatedCode = generateVerificationCode();
 
@@ -92,7 +94,7 @@ exports.sendVerificationCode = async (req, res) => {
     }
 
     if (!adminsEmail.includes(email)) {
-      throw new Error("Your email is not an admin email")
+      throw new Error("Your email is not an admin email");
     }
 
     let verificationCodeExists = await prisma.verification_codes.findFirst({
@@ -117,43 +119,41 @@ exports.sendVerificationCode = async (req, res) => {
       });
     }
 
-
-    const dirHtml = path.join(__dirname , '../emails/verificationCodeEmail.html')
-
-    readHTMLFile(
-      dirHtml ,
-      async (err, html) => {
-        if (err) {
-          throw new Error(err);
-        }
-        let template = handlebars.compile(html);
-        let replacements = {
-          verificationCode:generatedCode
-        };
-        const htmlContent = template(replacements);
-
-
-        const sendEmail = await new SibApiV3Sdk.TransactionalEmailsApi();
-        const isEmailSent = await sendEmail.sendTransacEmail({
-          sender:{
-             email:EMAIL_ADMIN
-          },
-          to:[{
-            email:email
-          }],
-          subject:'Admin verification code' ,
-          htmlContent
-        })
-
-        return res.status(201).json({
-          success: true,
-          message: "Verification code sent!",
-          isEmailSent
-        });
-
-      }
+    const dirHtml = path.join(
+      __dirname,
+      "../emails/verificationCodeEmail.html"
     );
 
+    readHTMLFile(dirHtml, async (err, html) => {
+      if (err) {
+        throw new Error(err);
+      }
+      let template = handlebars.compile(html);
+      let replacements = {
+        verificationCode: generatedCode,
+      };
+      const htmlContent = template(replacements);
+
+      const sendEmail = await new SibApiV3Sdk.TransactionalEmailsApi();
+      const isEmailSent = await sendEmail.sendTransacEmail({
+        sender: {
+          email: EMAIL_ADMIN,
+        },
+        to: [
+          {
+            email: email,
+          },
+        ],
+        subject: "Admin verification code",
+        htmlContent,
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "Verification code sent!",
+        isEmailSent,
+      });
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({
