@@ -183,6 +183,10 @@ router.delete("/remove-artist", isAuth, uiController.removeArtist);
 router.get("/get-FAQ", uiController.getFAQ);
 router.get("/reset-FAQ", isAuth, uiController.resetFAQ);
 router.put("/edit-FAQ", isAuth, uiController.editFAQ);
+router.post("/add-FAQ", isAuth, uiController.addFAQ);
+router.post("/add-FAQ-list", isAuth, uiController.addFAQList);
+router.delete("/remove-FAQ", isAuth, uiController.removeFAQ);
+router.delete("/remove-FAQ-list", isAuth, uiController.removeFAQlist);
 
 // Terms of service
 
@@ -193,7 +197,7 @@ router.put("/edit-terms-of-service", isAuth, uiController.editTermsOfService);
 // Shipping policy
 
 router.get("/get-shipping-policy", uiController.getShippingPolicy);
-router.get('/reset-shipping-policy' , isAuth , uiController.resetShippingPolicy)
+router.get("/reset-shipping-policy", isAuth, uiController.resetShippingPolicy);
 router.put("/edit-shipping-policy", isAuth, uiController.editShippingPolicy);
 
 // Refund policy

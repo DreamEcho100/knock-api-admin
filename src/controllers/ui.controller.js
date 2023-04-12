@@ -2023,8 +2023,6 @@ exports.addArtist = async (req, res) => {
   }
 };
 
-exports.resetArtist = async (req, res) => {};
-
 exports.resetDTK = async (req, res) => {
   try {
     const { paragraphId, artistId, sectionId } = req.query;
@@ -2696,6 +2694,159 @@ exports.editFAQ = async (req, res) => {
       success: true,
       message: "Section changed Successfully!",
     });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addFAQ = async (req, res) => {
+  try {
+    const { answer_type, h2, h3, p, faq_list } = req.body;
+
+    if (!h2 || !p) {
+      throw new Error("please insert an h2 tag and p tag");
+    }
+
+    if (!answer_type) {
+      throw new Error("please select type of the faq");
+    }
+
+    const list = faq_list.map((el) => {
+      return {
+        li: el,
+      };
+    });
+
+    if (answer_type === "opening_and_lists") {
+      await prisma.faq_page.create({
+        data: {
+          h2,
+          h3,
+          p,
+          answer_type,
+          faq_list: {
+            createMany: {
+              data: list,
+            },
+          },
+        },
+      });
+    } else {
+      await prisma.faq_page.create({
+        data: {
+          h2,
+          p,
+          answer_type,
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Faq added Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addFAQList = async (req, res) => {
+  try {
+    const { li, id } = req.body;
+
+    if (!li) {
+      throw new Error("please insert text");
+    }
+    if (!id) {
+      throw new Error("please provide faq id");
+    }
+
+    await prisma.faq_page.update({
+      where: {
+        id,
+      },
+      data: {
+        faq_list: {
+          create: {
+            li,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Faq list was added Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeFAQ = async (req, res) => {
+  try {
+    const { id } = req.query;
+
+    const unremovableArray = [1, 2, 3, 4, 5, 6];
+
+    if (unremovableArray.includes(parseInt(id))) {
+      throw new Error("you can only remove the new FAQ not the existing");
+    }
+
+    if (!id) {
+      throw new Error("no faq id was found");
+    }
+
+    await prisma.faq_page.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Faq removed Successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeFAQlist = async (req, res) => {
+  try {
+    const { faqId, id } = req.query;
+
+    if (parseInt(faqId) === 3 && [1, 2, 3].includes(parseInt(id))) {
+      throw new Error("you can only remove the new added list ");
+    }
+
+    await prisma.faq_list.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Faq list removed Successfully!",
+    });
+    
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
