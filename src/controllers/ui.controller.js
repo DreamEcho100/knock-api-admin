@@ -339,6 +339,91 @@ exports.uploadKnockImageMainSection = async (req, res) => {
   }
 };
 
+exports.addSystemRequirmentsKnock = async (req, res) => {
+  try {
+    const { li, macOrPc } = req.body;
+
+    if (!li) {
+      throw new Error("Please provide a valid text");
+    }
+    if (!macOrPc) {
+      throw new Error("Please provide a type mac or pc");
+    }
+
+    if (macOrPc === "mac") {
+      await prisma.seven_section_knock_page_mac.create({
+        data: {
+          li,
+          seven_section_knock_page: {
+            connect: {
+              id: 1,
+            },
+          },
+        },
+      });
+    } else if (macOrPc === "pc") {
+      await prisma.seven_section_knock_page_pc.create({
+        data: {
+          li,
+          seven_section_knock_page: {
+            connect: {
+              id: 1,
+            },
+          },
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Bullet added successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeSystemRequirmentsKnock = async (req, res) => {
+  try {
+    const { bulletId, macOrPc } = req.query;
+
+    const excludedIds = [1, 2, 3, 4];
+
+    if (excludedIds.includes(parseInt(bulletId))) {
+      throw new Error("You can't remove this requierment");
+    }
+
+    if (macOrPc === "mac") {
+      await prisma.seven_section_knock_page_mac.delete({
+        where: {
+          id: parseInt(bulletId),
+        },
+      });
+    } else if (macOrPc === "pc") {
+      await prisma.seven_section_knock_page_pc.delete({
+        where: {
+          id: parseInt(bulletId),
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Bullet removed successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // knock clipper main
 exports.getKnockClipperMainSection = async (req, res) => {
   try {
@@ -1723,6 +1808,90 @@ exports.resetKnockClipperPageSection = async (req, res) => {
   }
 };
 
+exports.addSystemRequirmentsKnockClipper = async (req, res) => {
+  try {
+    const { li, macOrPc } = req.body;
+
+    if (!li) {
+      throw new Error("Please provide a valid text");
+    }
+    if (!macOrPc) {
+      throw new Error("Please provide a type mac or pc");
+    }
+
+    if (macOrPc === "mac") {
+      await prisma.forth_section_knock_clipper_page_mac.create({
+        data: {
+          li,
+          forth_section_knock_clipper_page: {
+            connect: {
+              id: 1,
+            },
+          },
+        },
+      });
+    } else if (macOrPc === "pc") {
+      await prisma.forth_section_knock_clipper_page_pc.create({
+        data: {
+          li,
+          forth_section_knock_clipper_page: {
+            connect: {
+              id: 1,
+            },
+          },
+        },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Bullet added successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.removeSystemRequirmentsKnockClipper = async (req, res) => {
+  try {
+    const { bulletId, macOrPc } = req.query;
+
+    const excludedIds = [1, 2, 3, 4];
+
+    if (excludedIds.includes(parseInt(bulletId))) {
+      throw new Error("You can't remove this requierment");
+    }
+
+    if (macOrPc === "mac") {
+      await prisma.forth_section_knock_clipper_page_mac.delete({
+        where: {
+          id: parseInt(bulletId),
+        },
+      });
+    } else if (macOrPc === "pc") {
+      await prisma.forth_section_knock_clipper_page_pc.delete({
+        where: {
+          id: parseInt(bulletId),
+        },
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Bullet removed successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // DTK
 
 exports.getDTK = async (req, res) => {
@@ -2846,7 +3015,6 @@ exports.removeFAQlist = async (req, res) => {
       success: true,
       message: "Faq list removed Successfully!",
     });
-    
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({

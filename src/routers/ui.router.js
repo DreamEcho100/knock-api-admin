@@ -103,6 +103,8 @@ router.post(
 );
 router.delete("/remove-review", isAuth, uiController.removeKnockReview);
 router.get("/reset-knockpage", isAuth, uiController.resetKnockPageSection);
+router.post('/add-system-requirements-bullet-knock' , isAuth , uiController.addSystemRequirmentsKnock)
+router.delete('/remove-system-requirements-bullet-knock' , isAuth , uiController.removeSystemRequirmentsKnock)
 
 // Knock Clipper
 
@@ -120,6 +122,8 @@ router.get(
   isAuth,
   uiController.resetKnockClipperPageSection
 );
+router.post('/add-system-requirements-bullet-knock-clipper' , isAuth , uiController.addSystemRequirmentsKnockClipper)
+router.delete('/remove-system-requirements-bullet-knock-clipper' , isAuth , uiController.removeSystemRequirmentsKnockClipper)
 
 // DTK
 
