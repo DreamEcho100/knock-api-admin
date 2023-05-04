@@ -805,3 +805,18 @@ model verification_codes {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+// ---------------------------------------------------- upselling -----------------------
+
+model upselling_popup {
+  id                  Int    @id @default(autoincrement())
+  handle              String
+  discount_code       String
+  discount_percentage Int
+}
+
+model upselling_popup_settings {
+  id         Int      @id @default(autoincrement())
+  disable    Boolean?
+  buttonText String?
+}

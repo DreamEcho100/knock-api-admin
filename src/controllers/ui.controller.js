@@ -5131,3 +5131,197 @@ exports.resetReviews = async (req, res) => {
     });
   }
 };
+
+// UpSelling
+
+exports.getUpSellingPopup = async (req, res) => {
+  try {
+    const upselling = await prisma.upselling_popup.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    const upsellingSettings = await prisma.upselling_popup_settings.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "",
+      upselling,
+      upsellingSettings,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.addUpSellingPopup = async (req, res) => {
+  try {
+    let { handle, discount_code, discount_percentage } = req.body;
+
+    if (!handle) {
+      throw new Error("Please Select a product");
+    }
+
+    if (!discount_code) {
+      throw new Error("Please check you information discount code");
+    }
+
+    if (!Number(discount_percentage)) {
+      throw new Error("Percentage must be number");
+    }
+
+    const handleExist = await prisma.upselling_popup.findFirst({
+      where: {
+        handle,
+      },
+    });
+
+    if (handleExist) {
+      throw new Error("Upselling product already exist!");
+    }
+
+    delete req.body.isEditing;
+    delete req.body.disable;
+    delete req.body.buttonText;
+
+    await prisma.upselling_popup.create({
+      data: {
+        ...req.body,
+        discount_percentage: parseInt(discount_percentage),
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Upsell product was added successfully!",
+    });
+    
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.editUpSellingPopup = async (req, res) => {
+  try {
+    let { handle, discount_percentage } = req.body;
+
+    const handleExist = await prisma.upselling_popup.findFirst({
+      where: {
+        handle,
+      },
+    });
+
+    if (!handleExist) {
+      throw new Error("Upselling product doesn't exist!");
+    }
+
+    delete req.body.isEditing;
+
+    await prisma.upselling_popup.update({
+      where: {
+        id: handleExist.id,
+      },
+      data: {
+        ...req.body,
+        discount_percentage: parseInt(discount_percentage),
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Upsell product was changed successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.editUpSellingPopupSettings = async (req, res) => {
+  try {
+    let { id } = req.body;
+
+    const handleExist = await prisma.upselling_popup_settings.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!handleExist) {
+      throw new Error("Upselling product doesn't exist!");
+    }
+
+    await prisma.upselling_popup_settings.update({
+      where: {
+        id: handleExist.id,
+      },
+      data: {
+        ...req.body,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Upsell settings was changed successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.deleteUpSellingPopup = async (req, res) => {
+  try {
+    let { handle } = req.query;
+
+    if (!handle) {
+      throw new Error("Please select upsell product to delete");
+    }
+
+    const handleExist = await prisma.upselling_popup.findFirst({
+      where: {
+        handle,
+      },
+    });
+
+    if (!handleExist) {
+      throw new Error("Upselling product doesn't exist!");
+    }
+
+    await prisma.upselling_popup.delete({
+      where: {
+        id: handleExist.id,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Upsell product was deleted successfully!",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};

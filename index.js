@@ -2249,7 +2249,8 @@ const initPrivacyPolicy = async () => {
   await prisma.privacy_policy.create({
     data: {
       head: "This Privacy Policy describes how pluginsthatknock.com (the 'Site' or 'we')",
-      head2:"collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.",
+      head2:
+        "collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.",
       collecting: {
         create: {
           h2: "Collecting Personal Information",
@@ -2696,6 +2697,37 @@ const initPrivacyPolicy = async () => {
   });
 };
 
+const initUpSelling = async () => {
+  const upselling = await prisma.upselling_popup.findMany();
+
+  if (upselling.length) {
+    return;
+  } else {
+    await prisma.upselling_popup.create({
+      data: {
+        handle: "knock-plugin",
+        discount_code: "HKASGGWV381S",
+        discount_percentage: 40,
+      },
+    });
+  }
+};
+
+const initSettingsUpSell = async () => {
+  const upselling_settings = await prisma.upselling_popup_settings.findMany();
+
+  if (upselling_settings.length) {
+    return;
+  } else {
+    await prisma.upselling_popup_settings.create({
+      data: {
+        buttonText: "Add To Cart",
+        disable: true,
+      },
+    });
+  }
+};
+
 createAdmin();
 initBanner();
 initMainSection();
@@ -2711,3 +2743,5 @@ initShippingPolicy();
 initRefundPolicy();
 initPrivacyPolicy();
 initDtkMainSection();
+initUpSelling();
+initSettingsUpSell();
