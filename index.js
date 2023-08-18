@@ -2708,6 +2708,7 @@ const initUpSelling = async () => {
         handle: "knock-plugin",
         discount_code: "HKASGGWV381S",
         discount_percentage: 40,
+        hasDiscount: false
       },
     });
   }

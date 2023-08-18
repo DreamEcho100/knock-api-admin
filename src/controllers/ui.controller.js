@@ -1,4 +1,5 @@
 const { prisma } = require("../../prisma/prisma");
+const { calculatePercentageDecrease } = require("../utils/generator");
 const { reviews, artists, reviewsDTKPage } = require("../utils/reviews");
 
 // banner
@@ -5165,18 +5166,10 @@ exports.getUpSellingPopup = async (req, res) => {
 
 exports.addUpSellingPopup = async (req, res) => {
   try {
-    let { handle, discount_code, discount_percentage } = req.body;
+    let { handle, discount_percentage, hasDiscount, comparePriceAt, price, discount_code } = req.body;
 
     if (!handle) {
       throw new Error("Please Select a product");
-    }
-
-    if (!discount_code) {
-      throw new Error("Please check you information discount code");
-    }
-
-    if (!Number(discount_percentage)) {
-      throw new Error("Percentage must be number");
     }
 
     const handleExist = await prisma.upselling_popup.findFirst({
@@ -5189,14 +5182,29 @@ exports.addUpSellingPopup = async (req, res) => {
       throw new Error("Upselling product already exist!");
     }
 
-    delete req.body.isEditing;
-    delete req.body.disable;
-    delete req.body.buttonText;
+    if (!hasDiscount && !comparePriceAt) {
+      throw new Error("This product is not on sale add discount code")
+    }
+
+    if (hasDiscount) {
+
+      if (!discount_percentage) {
+        throw new Error('Please  add discount percentage')
+      }
+
+      if (!discount_code) {
+        throw new Error('Please  add discount code')
+      }
+    }
+
+    const percentageDecrease = calculatePercentageDecrease(comparePriceAt, price);
 
     await prisma.upselling_popup.create({
       data: {
-        ...req.body,
-        discount_percentage: parseInt(discount_percentage),
+        hasDiscount,
+        handle,
+        discount_code,
+        discount_percentage: (!hasDiscount && comparePriceAt) ? parseFloat(percentageDecrease) : discount_percentage ? parseFloat(discount_percentage) : null
       },
     });
 
@@ -5204,7 +5212,7 @@ exports.addUpSellingPopup = async (req, res) => {
       success: true,
       message: "Upsell product was added successfully!",
     });
-    
+
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
@@ -5216,7 +5224,7 @@ exports.addUpSellingPopup = async (req, res) => {
 
 exports.editUpSellingPopup = async (req, res) => {
   try {
-    let { handle, discount_percentage } = req.body;
+    let { handle, discount_percentage, hasDiscount, comparePriceAt, price, discount_code } = req.body;
 
     const handleExist = await prisma.upselling_popup.findFirst({
       where: {
@@ -5228,15 +5236,34 @@ exports.editUpSellingPopup = async (req, res) => {
       throw new Error("Upselling product doesn't exist!");
     }
 
-    delete req.body.isEditing;
+    if (!hasDiscount && !comparePriceAt) {
+      throw new Error("This product is not on sale add discount code")
+    }
+
+    if (hasDiscount) {
+
+      if (!discount_percentage) {
+        throw new Error('Please  add discount percentage')
+      }
+
+      if (!discount_code) {
+        throw new Error('Please  add discount code')
+      }
+    }
+
+    const percentageDecrease = calculatePercentageDecrease(comparePriceAt, price);
+
+
 
     await prisma.upselling_popup.update({
       where: {
         id: handleExist.id,
       },
       data: {
-        ...req.body,
-        discount_percentage: parseInt(discount_percentage),
+        hasDiscount,
+        handle,
+        discount_code,
+        discount_percentage: (!hasDiscount && comparePriceAt) ? parseFloat(percentageDecrease) : discount_percentage ? parseFloat(discount_percentage) : null
       },
     });
 
