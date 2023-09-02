@@ -222,6 +222,7 @@ router.put("/edit-privacy-policy", isAuth, uiController.editPrivacyPolicy);
 router.get("/get-upselling-popup", uiController.getUpSellingPopup);
 router.post("/add-upselling-product", isAuth, uiController.addUpSellingPopup);
 router.put("/edit-upselling-product", isAuth, uiController.editUpSellingPopup);
+router.put("/edit-upselling-product/order", isAuth, uiController.editUpSellingProductsOrder);
 router.put("/edit-upselling-product-settings", isAuth, uiController.editUpSellingPopupSettings);
 router.delete("/delete-upselling-product", isAuth, uiController.deleteUpSellingPopup);
 

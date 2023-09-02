@@ -5139,7 +5139,7 @@ exports.getUpSellingPopup = async (req, res) => {
   try {
     const upselling = await prisma.upselling_popup.findMany({
       orderBy: {
-        id: "asc",
+        position: "asc",
       },
     });
 
@@ -5254,7 +5254,6 @@ exports.editUpSellingPopup = async (req, res) => {
     const percentageDecrease = calculatePercentageDecrease(comparePriceAt, price);
 
 
-
     await prisma.upselling_popup.update({
       where: {
         id: handleExist.id,
@@ -5279,6 +5278,33 @@ exports.editUpSellingPopup = async (req, res) => {
     });
   }
 };
+
+exports.editUpSellingProductsOrder = async (req, res) => {
+
+  try {
+    const { reorderedItems } = req.body;
+
+    // Loop through reorderedItems and update the order in the database
+    for (const item of reorderedItems) {
+      await prisma.upselling_popup.update({
+        where: { id: item.id },
+        data: { position: item.position },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Upsell products sort was changed successfully!"
+    });
+
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
 
 exports.editUpSellingPopupSettings = async (req, res) => {
   try {

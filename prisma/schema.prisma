@@ -809,11 +809,12 @@ model verification_codes {
 // ---------------------------------------------------- upselling -----------------------
 
 model upselling_popup {
-  id                  Int    @id @default(autoincrement())
+  id                  Int     @id @default(autoincrement())
   handle              String
   hasDiscount         Boolean
   discount_code       String?
   discount_percentage Float?
+  position            Int     @default(autoincrement())
 }
 
 model upselling_popup_settings {
