@@ -2729,6 +2729,100 @@ const initSettingsUpSell = async () => {
   }
 };
 
+const initDrumsThatKnockLimitedEdition = async () => {
+  const isDTKproduct = await prisma.dtk_product.findFirst({
+    where: {
+      handle: "drums-that-knock-limited-edition-2023"
+    }
+  });
+
+  console.log(isDTKproduct);
+
+  if (isDTKproduct) {
+    return;
+  }
+
+  await prisma.dtk_product.create({
+    data: {
+      handle: 'drums-that-knock-limited-edition-2023',
+      fileCount: 0,
+      description: {
+        createMany: {
+          data: [
+            {
+              h3: "All BRAND NEW, never heard before sounds designed from scratch by DECAP.",
+              text: [
+                "Only available through Black Friday in 2023, then will never be available again.",
+              ],
+            },
+          ],
+        },
+      },
+      filesIncluded: {
+        createMany: {
+          data: [
+            {
+              li: "808s + Bass",
+            },
+            {
+              li: "Breakbeats",
+            },
+            {
+              li: "Drum Loops",
+            },
+            {
+              li: "Hihat Loops",
+            },
+            {
+              li: "Hihats",
+            },
+            {
+              li: "Kicks",
+            },
+            {
+              li: "Percussion loops",
+            },
+            {
+              li: "Percussive One Shots",
+            },
+            {
+              li: "Snares + Claps + Rimshots",
+            },
+            {
+              li: "Toms",
+            },
+          ],
+        },
+      },
+      features: {
+        createMany: {
+          data: [
+            {
+              li: "All sounds and loops are 100% royalty free",
+            },
+            {
+              li: "All sounds are crafted, sculpted, specially designed to KNOCK / punch through in your mix",
+            },
+            {
+              li: "All sounds are 100% original and crafted from scratch (no recycled sounds)",
+            },
+            {
+              li: "All loops are labeled with tempo, key, and ready to drop right into your DAW with no editing required",
+            },
+            {
+              li: "All sounds are in 24bit/44.1kHz format ",
+            },
+            {
+              li: "All sounds and loops are compatible with any DAW software or beat machine (Ableton, FL Studio, Logic, Reason, MPC, Maschine, Studio One, Bitwig, etc)",
+            },
+          ],
+        },
+      },
+    }
+  })
+
+}
+
 createAdmin();
 initBanner();
 initMainSection();
@@ -2746,3 +2840,4 @@ initPrivacyPolicy();
 initDtkMainSection();
 initUpSelling();
 initSettingsUpSell();
+initDrumsThatKnockLimitedEdition()
