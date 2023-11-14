@@ -2736,8 +2736,6 @@ const initDrumsThatKnockLimitedEdition = async () => {
     }
   });
 
-  console.log(isDTKproduct);
-
   if (isDTKproduct) {
     return;
   }

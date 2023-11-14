@@ -103,8 +103,8 @@ router.post(
 );
 router.delete("/remove-review", isAuth, uiController.removeKnockReview);
 router.get("/reset-knockpage", isAuth, uiController.resetKnockPageSection);
-router.post('/add-system-requirements-bullet-knock' , isAuth , uiController.addSystemRequirmentsKnock)
-router.delete('/remove-system-requirements-bullet-knock' , isAuth , uiController.removeSystemRequirmentsKnock)
+router.post('/add-system-requirements-bullet-knock', isAuth, uiController.addSystemRequirmentsKnock)
+router.delete('/remove-system-requirements-bullet-knock', isAuth, uiController.removeSystemRequirmentsKnock)
 
 // Knock Clipper
 
@@ -122,8 +122,8 @@ router.get(
   isAuth,
   uiController.resetKnockClipperPageSection
 );
-router.post('/add-system-requirements-bullet-knock-clipper' , isAuth , uiController.addSystemRequirmentsKnockClipper)
-router.delete('/remove-system-requirements-bullet-knock-clipper' , isAuth , uiController.removeSystemRequirmentsKnockClipper)
+router.post('/add-system-requirements-bullet-knock-clipper', isAuth, uiController.addSystemRequirmentsKnockClipper)
+router.delete('/remove-system-requirements-bullet-knock-clipper', isAuth, uiController.removeSystemRequirmentsKnockClipper)
 
 // DTK
 
@@ -225,5 +225,9 @@ router.put("/edit-upselling-product", isAuth, uiController.editUpSellingPopup);
 router.put("/edit-upselling-product/order", isAuth, uiController.editUpSellingProductsOrder);
 router.put("/edit-upselling-product-settings", isAuth, uiController.editUpSellingPopupSettings);
 router.delete("/delete-upselling-product", isAuth, uiController.deleteUpSellingPopup);
+
+// add dtk product
+router.post('/add-dtk-product', isAuth, uiController.addDTKProduct)
+router.delete('/remove-dtk-product', isAuth, uiController.removeDTKProduct)
 
 module.exports = router;

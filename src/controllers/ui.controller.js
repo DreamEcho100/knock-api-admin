@@ -5378,3 +5378,109 @@ exports.deleteUpSellingPopup = async (req, res) => {
     });
   }
 };
+
+
+// add dtk product
+
+exports.addDTKProduct = async (req, res) => {
+  try {
+
+    if (!req.body.handle) {
+      throw new Error("Please provide the product handle!");
+    }
+
+    if (!req.body) {
+      throw new Error("DTK product data not found!");
+    }
+
+    const isProductExist = await prisma.dtk_product.findFirst({
+      where: {
+        handle: req.body.handle,
+      }
+    })
+
+    if (isProductExist) {
+      throw new Error("DTK product already exist!");
+    }
+
+    const data = await prisma.dtk_product.create({
+      data: {
+        handle: req.body.handle,
+        description: {
+          create: {
+            h3: req.body.description.h3,
+            text: req.body.description.text
+          }
+        },
+        features: {
+          createMany: {
+            data: req.body.features
+          }
+        },
+        filesIncluded: {
+          createMany: {
+            data: req.body.filesIncluded
+          }
+        },
+        youtubeVideo: {
+          createMany: {
+            data: req.body.youtubeVideo
+          }
+        }
+      }
+    })
+
+
+    return res.status(200).json({
+      success: true,
+      message: "Product was added successfully!",
+    });
+
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+exports.removeDTKProduct = async (req, res) => {
+
+  try {
+    const { handle } = req.query
+
+    if (!handle) {
+      throw new Error("Please provide the product handle!");
+    }
+
+    const product = await prisma.dtk_product.findFirst({
+      where: {
+        handle
+      }
+    })
+
+    if (!product) {
+      throw new Error("Product details already removed!");
+    }
+
+    await prisma.dtk_product.delete({
+      where: {
+        id: product.id
+      }
+    })
+
+    return res.status(200).json({
+      success: true,
+      message: "Product was removed successfully!",
+    });
+
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+
+}
