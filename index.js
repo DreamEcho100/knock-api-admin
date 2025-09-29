@@ -18,6 +18,34 @@ app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/ui", uiRouter);
 
+// Global error handler - must be last middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+
+  // Default error status and message
+  let status = err.status || err.statusCode || 500;
+  let message = err.message || "Internal Server Error";
+
+  // Handle specific error types
+  if (err.name === "ValidationError") {
+    status = 400;
+    message = err.message;
+  } else if (err.name === "UnauthorizedError") {
+    status = 401;
+    message = "Unauthorized";
+  } else if (err.code === "P2002") {
+    // Prisma unique constraint error
+    status = 409;
+    message = "Resource already exists";
+  }
+
+  res.status(status).json({
+    success: false,
+    message,
+    ...(process.env.NODE_ENV === "dev" && { stack: err.stack }),
+  });
+});
+
 const bcrypt = require("bcrypt");
 
 app.listen(4500, () => {
