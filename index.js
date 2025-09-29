@@ -43,14 +43,14 @@ const createAdmin = async () => {
           firstName: "admin",
           email: process.env.EMAIL_ADMIN,
           password: hashedPassword,
-          roles: "admin",
+          roles: ["admin"],
         },
         {
           lastName: "admin",
           firstName: "admin",
           email: process.env.MY_EMAIL_ADMIN,
           password: hashedPassword,
-          roles: "admin",
+          roles: ["admin"],
         },
       ],
     });
@@ -2708,7 +2708,7 @@ const initUpSelling = async () => {
         handle: "knock-plugin",
         discount_code: "HKASGGWV381S",
         discount_percentage: 40,
-        hasDiscount: false
+        hasDiscount: false,
       },
     });
   }
@@ -2732,8 +2732,8 @@ const initSettingsUpSell = async () => {
 const initDrumsThatKnockLimitedEdition = async () => {
   const isDTKproduct = await prisma.dtk_product.findFirst({
     where: {
-      handle: "drums-that-knock-limited-edition-2023"
-    }
+      handle: "drums-that-knock-limited-edition-2023",
+    },
   });
 
   if (isDTKproduct) {
@@ -2742,7 +2742,7 @@ const initDrumsThatKnockLimitedEdition = async () => {
 
   await prisma.dtk_product.create({
     data: {
-      handle: 'drums-that-knock-limited-edition-2023',
+      handle: "drums-that-knock-limited-edition-2023",
       fileCount: 0,
       description: {
         createMany: {
@@ -2816,10 +2816,9 @@ const initDrumsThatKnockLimitedEdition = async () => {
           ],
         },
       },
-    }
-  })
-
-}
+    },
+  });
+};
 
 createAdmin();
 initBanner();
@@ -2838,4 +2837,4 @@ initPrivacyPolicy();
 initDtkMainSection();
 initUpSelling();
 initSettingsUpSell();
-initDrumsThatKnockLimitedEdition()
+initDrumsThatKnockLimitedEdition();

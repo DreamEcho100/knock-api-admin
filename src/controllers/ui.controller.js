@@ -1,8 +1,31 @@
+/**
+ * @import { Request, Response } from "express"
+ */
+
 const { prisma } = require("../../prisma/prisma");
 const { calculatePercentageDecrease } = require("../utils/generator");
 const { reviews, artists, reviewsDTKPage } = require("../utils/reviews");
 
 // banner
+
+/**
+ * @param {Response} res
+ * @param {unknown} error
+ */
+function handleGenircError(res, error) {
+  const errorMessage =
+    error instanceof Error ? error.message : "Something went wrong";
+  console.error("Error: ", error);
+  return res.status(500).json({
+    success: false,
+    message: errorMessage,
+  });
+}
+
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getBanner = async (req, res) => {
   try {
     const banner = await prisma.banner.findUnique({
@@ -17,14 +40,14 @@ exports.getBanner = async (req, res) => {
       banner,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.changeBanner = async (req, res) => {
   try {
     const data = req.body;
@@ -42,15 +65,15 @@ exports.changeBanner = async (req, res) => {
       banner: update,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // main
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getMainSection = async (req, res) => {
   try {
     const main = await prisma.main_section.findUnique({
@@ -65,14 +88,14 @@ exports.getMainSection = async (req, res) => {
       main,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.changeMainSection = async (req, res) => {
   try {
     let data = req.body;
@@ -93,14 +116,14 @@ exports.changeMainSection = async (req, res) => {
       message: "Main section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetMainSection = async (req, res) => {
   try {
     const { sectionId, pageId } = req.query;
@@ -125,6 +148,7 @@ exports.resetMainSection = async (req, res) => {
         });
         break;
 
+      case "second_section_home_page":
         update = await prisma.second_section_home_page.update({
           where: {
             id: 1,
@@ -194,14 +218,14 @@ exports.resetMainSection = async (req, res) => {
       main: update,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadImageMainSection = async (req, res) => {
   try {
     if (req.file) {
@@ -221,15 +245,15 @@ exports.uploadImageMainSection = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // knock main
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getKnockMainSection = async (req, res) => {
   try {
     const main = await prisma.knock_main_section.findUnique({
@@ -244,14 +268,14 @@ exports.getKnockMainSection = async (req, res) => {
       main,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.changeKnockMainSection = async (req, res) => {
   try {
     let data = req.body;
@@ -290,14 +314,14 @@ exports.changeKnockMainSection = async (req, res) => {
       message: "section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadKnockImageMainSection = async (req, res) => {
   try {
     if (req.file) {
@@ -332,14 +356,14 @@ exports.uploadKnockImageMainSection = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addSystemRequirmentsKnock = async (req, res) => {
   try {
     const { li, macOrPc } = req.body;
@@ -380,34 +404,44 @@ exports.addSystemRequirmentsKnock = async (req, res) => {
       message: "Bullet added successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeSystemRequirmentsKnock = async (req, res) => {
   try {
     const { bulletId, macOrPc } = req.query;
 
+    if (!bulletId) {
+      throw new Error("Please provide a valid bulletId");
+    }
+
+    const bulletIdNumber = +bulletId;
+
+    if (isNaN(bulletIdNumber)) {
+      throw new Error("Please provide a valid bulletId");
+    }
+
     const excludedIds = [1, 2, 3, 4];
 
-    if (excludedIds.includes(parseInt(bulletId))) {
+    if (excludedIds.includes(bulletIdNumber)) {
       throw new Error("You can't remove this requierment");
     }
 
     if (macOrPc === "mac") {
       await prisma.seven_section_knock_page_mac.delete({
         where: {
-          id: parseInt(bulletId),
+          id: bulletIdNumber,
         },
       });
     } else if (macOrPc === "pc") {
       await prisma.seven_section_knock_page_pc.delete({
         where: {
-          id: parseInt(bulletId),
+          id: bulletIdNumber,
         },
       });
     }
@@ -417,15 +451,15 @@ exports.removeSystemRequirmentsKnock = async (req, res) => {
       message: "Bullet removed successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // knock clipper main
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getKnockClipperMainSection = async (req, res) => {
   try {
     const main = await prisma.knock_clipper_main_section.findUnique({
@@ -440,14 +474,14 @@ exports.getKnockClipperMainSection = async (req, res) => {
       main,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.changeKnockClipperMainSection = async (req, res) => {
   try {
     let data = req.body;
@@ -471,14 +505,14 @@ exports.changeKnockClipperMainSection = async (req, res) => {
       message: "section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadKnockClipperImageMainSection = async (req, res) => {
   try {
     if (req.file) {
@@ -499,15 +533,15 @@ exports.uploadKnockClipperImageMainSection = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // popup
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getPopUp = async (req, res) => {
   try {
     const popup = await prisma.popup.findUnique({
@@ -522,14 +556,14 @@ exports.getPopUp = async (req, res) => {
       popup,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetPopUp = async (req, res) => {
   try {
     const update = await prisma.popup.update({
@@ -555,14 +589,14 @@ exports.resetPopUp = async (req, res) => {
       popup: update,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.changePopUp = async (req, res) => {
   try {
     let data = req.body;
@@ -582,14 +616,14 @@ exports.changePopUp = async (req, res) => {
       popup: update,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadImagePopUp = async (req, res) => {
   try {
     if (req.file) {
@@ -610,30 +644,35 @@ exports.uploadImagePopUp = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // home page
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getHomePage = async (req, res) => {
   try {
     const homePage = await prisma.home_page.findMany();
+    const homePageId = homePage[0]?.id;
+
+    if (!homePageId) {
+      throw new Error("Home page not found");
+    }
 
     const secondSection = await prisma.second_section_home_page.findUnique({
-      where: { id: homePage[0].id },
+      where: { id: homePageId },
     });
 
     const thirdSection = await prisma.third_section_home_page.findUnique({
-      where: { id: homePage[0].id },
+      where: { id: homePageId },
     });
 
     const forthSection = await prisma.forth_section_home_page.findUnique({
-      where: { id: homePage[0].id },
+      where: { id: homePageId },
     });
 
     return res.status(200).json({
@@ -644,14 +683,14 @@ exports.getHomePage = async (req, res) => {
       forthSection,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editHomePage = async (req, res) => {
   try {
     const { sectionId } = req.body;
@@ -690,17 +729,22 @@ exports.editHomePage = async (req, res) => {
     }
 
     const homePage = await prisma.home_page.findMany();
+    const homePageId = homePage[0]?.id;
+
+    if (!homePageId) {
+      throw new Error("Home page not found");
+    }
 
     const secondSection = await prisma.second_section_home_page.findUnique({
-      where: { id: homePage[0].id },
+      where: { id: homePageId },
     });
 
     const thirdSection = await prisma.third_section_home_page.findUnique({
-      where: { id: homePage[0].id },
+      where: { id: homePageId },
     });
 
     const forthSection = await prisma.forth_section_home_page.findUnique({
-      where: { id: homePage[0].id },
+      where: { id: homePageId },
     });
 
     return res.status(200).json({
@@ -711,14 +755,14 @@ exports.editHomePage = async (req, res) => {
       forthSection,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.changeSampleBox = async (req, res) => {
   try {
     let response;
@@ -751,14 +795,14 @@ exports.changeSampleBox = async (req, res) => {
       data: response,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadHomePageImages = async (req, res) => {
   try {
     if (req.file) {
@@ -785,14 +829,14 @@ exports.uploadHomePageImages = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetHomePageSections = async (req, res) => {
   try {
     let update;
@@ -921,26 +965,31 @@ exports.resetHomePageSections = async (req, res) => {
       section: update,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // knock page
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getKnockPage = async (req, res) => {
   try {
     const knockPage = await prisma.knock_page.findMany();
+    const knockPageId = knockPage[0]?.id;
+
+    if (!knockPageId) {
+      throw new Error("Knock page not found");
+    }
 
     const secondSection = await prisma.second_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
     });
 
     const thirdSection = await prisma.third_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
       select: {
         id: true,
         h2: true,
@@ -960,13 +1009,13 @@ exports.getKnockPage = async (req, res) => {
     });
 
     const forthSection = await prisma.forth_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
     });
     const fifthSection = await prisma.fifth_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
     });
     const sixSection = await prisma.six_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
       select: {
         id: true,
         six_section_knock_page_content: {
@@ -985,7 +1034,7 @@ exports.getKnockPage = async (req, res) => {
       },
     });
     const sevenSection = await prisma.seven_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
       select: {
         id: true,
         h2: true,
@@ -1011,10 +1060,10 @@ exports.getKnockPage = async (req, res) => {
       },
     });
     const iosSection = await prisma.ios_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
     });
     const eightSection = await prisma.eight_section_knock_page.findUnique({
-      where: { id: knockPage[0].id },
+      where: { id: knockPageId },
     });
 
     return res.status(200).json({
@@ -1030,14 +1079,14 @@ exports.getKnockPage = async (req, res) => {
       eightSection,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editKnockPage = async (req, res) => {
   try {
     const { sectionId } = req.body;
@@ -1061,7 +1110,7 @@ exports.editKnockPage = async (req, res) => {
               third_section_knock_page_content: {
                 update: {
                   where: {
-                    id: parseInt(shapesId),
+                    id: +shapesId,
                   },
                   data: {
                     h3: req.body.h3,
@@ -1095,13 +1144,16 @@ exports.editKnockPage = async (req, res) => {
       case "sixSection-knock":
         delete req.body.sectionId;
         delete req.body.mainImageUrl;
+        if (!reviewId) {
+          throw new Error("review id not found");
+        }
         await prisma.six_section_knock_page.update({
           where: { id: 1 },
           data: {
             six_section_knock_page_content: {
               update: {
                 where: {
-                  id: parseInt(reviewId),
+                  id: +reviewId,
                 },
                 data: {
                   ...req.body,
@@ -1176,14 +1228,14 @@ exports.editKnockPage = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addKnockReview = async (req, res) => {
   try {
     const { sectionId, review, reviewBy, alt } = req.body;
@@ -1215,34 +1267,35 @@ exports.addKnockReview = async (req, res) => {
       message: "review was added successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeKnockReview = async (req, res) => {
   try {
     if (!req.query.id || !req.query.page) {
       throw new Error("review id not found");
     }
 
+    const id = +req.query.id;
+    if (isNaN(id)) {
+      throw new Error("Please provide a valid review id");
+    }
+
     switch (req.query.page) {
       case "knockpage":
         await prisma.six_section_knock_page_content.delete({
-          where: {
-            id: parseInt(req.query.id),
-          },
+          where: { id },
         });
         break;
 
       case "dtk":
         await prisma.review_section_dtk_page_content.delete({
-          where: {
-            id: parseInt(req.query.id),
-          },
+          where: { id },
         });
         break;
 
@@ -1255,14 +1308,14 @@ exports.removeKnockReview = async (req, res) => {
       message: "review was removed successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetKnockPageSection = async (req, res) => {
   try {
     const { sectionId, shapesId, requirdId, type } = req.query;
@@ -1325,7 +1378,7 @@ exports.resetKnockPageSection = async (req, res) => {
 
           update = await prisma.third_section_knock_page_content.update({
             where: {
-              id: parseInt(shapesId),
+              id: +shapesId,
             },
             data,
           });
@@ -1358,9 +1411,13 @@ exports.resetKnockPageSection = async (req, res) => {
             li = "HDD Space requirements: Minimum of 500MB";
           }
 
+          if (!li) {
+            throw new Error("Please provide a valid text");
+          }
+
           await prisma.seven_section_knock_page_mac.update({
             where: {
-              id: parseInt(requirdId),
+              id: +requirdId,
             },
             data: {
               li,
@@ -1384,9 +1441,13 @@ exports.resetKnockPageSection = async (req, res) => {
             li = "HDD Space requirements: Minimum of 500MB";
           }
 
+          if (!li) {
+            throw new Error("Please provide a valid text");
+          }
+
           await prisma.seven_section_knock_page_pc.update({
             where: {
-              id: parseInt(requirdId),
+              id: +requirdId,
             },
             data: {
               li,
@@ -1429,14 +1490,14 @@ exports.resetKnockPageSection = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadKnockPageImages = async (req, res) => {
   try {
     if (req.file) {
@@ -1492,28 +1553,33 @@ exports.uploadKnockPageImages = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // knock clipper
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getKnockClipperPage = async (req, res) => {
   try {
     const knockPage = await prisma.knock_page.findMany();
 
+    const knockPageId = knockPage[0]?.id;
+    if (!knockPageId) {
+      throw new Error("knock page id not found");
+    }
+
     const secondSection =
       await prisma.second_section_knock_clipper_page.findUnique({
-        where: { id: knockPage[0].id },
+        where: { id: knockPageId },
       });
 
     const thirdSection =
       await prisma.third_section_knock_clipper_page.findUnique({
-        where: { id: knockPage[0].id },
+        where: { id: knockPageId },
         select: {
           id: true,
           p: true,
@@ -1526,7 +1592,7 @@ exports.getKnockClipperPage = async (req, res) => {
 
     const forthSection =
       await prisma.forth_section_knock_clipper_page.findUnique({
-        where: { id: knockPage[0].id },
+        where: { id: knockPageId },
         select: {
           id: true,
           h2: true,
@@ -1553,7 +1619,7 @@ exports.getKnockClipperPage = async (req, res) => {
       });
     const fifthSection =
       await prisma.fifth_section_knock_clipper_page.findUnique({
-        where: { id: knockPage[0].id },
+        where: { id: knockPageId },
       });
 
     return res.status(200).json({
@@ -1565,14 +1631,14 @@ exports.getKnockClipperPage = async (req, res) => {
       fifthSection,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editKnockClipperPage = async (req, res) => {
   try {
     const { sectionId } = req.body;
@@ -1651,14 +1717,14 @@ exports.editKnockClipperPage = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadKnockClipperPageImages = async (req, res) => {
   try {
     if (req.file) {
@@ -1666,16 +1732,15 @@ exports.uploadKnockClipperPageImages = async (req, res) => {
       const { sectionId, reviewId } = req.body;
       switch (sectionId) {
         case "thirdSection-knockclipper":
-          const response = await prisma.third_section_knock_clipper_page.update(
-            {
-              where: {
-                id: 1,
-              },
-              data: {
-                imageUrl: path[1],
-              },
-            }
-          );
+          await prisma.third_section_knock_clipper_page.update({
+            where: {
+              id: 1,
+            },
+            data: {
+              imageUrl: path[1],
+            },
+          });
+          break;
 
         default:
           break;
@@ -1687,14 +1752,14 @@ exports.uploadKnockClipperPageImages = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetKnockClipperPageSection = async (req, res) => {
   try {
     const { requirdId, sectionId, type } = req.query;
@@ -1729,6 +1794,10 @@ exports.resetKnockClipperPageSection = async (req, res) => {
             li = "HDD Space requirements: Minimum of 500MB";
           }
 
+          if (!li) {
+            throw new Error("Please provide a valid li");
+          }
+
           await prisma.forth_section_knock_clipper_page_mac.update({
             where: {
               id: parseInt(requirdId),
@@ -1753,6 +1822,10 @@ exports.resetKnockClipperPageSection = async (req, res) => {
           }
           if (requirdId === "4") {
             li = "HDD Space requirements: Minimum of 500MB";
+          }
+
+          if (!li) {
+            throw new Error("Please provide a valid li");
           }
 
           await prisma.forth_section_knock_clipper_page_pc.update({
@@ -1801,14 +1874,14 @@ exports.resetKnockClipperPageSection = async (req, res) => {
       section: update,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addSystemRequirmentsKnockClipper = async (req, res) => {
   try {
     const { li, macOrPc } = req.body;
@@ -1849,14 +1922,14 @@ exports.addSystemRequirmentsKnockClipper = async (req, res) => {
       message: "Bullet added successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeSystemRequirmentsKnockClipper = async (req, res) => {
   try {
     const { bulletId, macOrPc } = req.query;
@@ -1885,16 +1958,16 @@ exports.removeSystemRequirmentsKnockClipper = async (req, res) => {
       message: "Bullet removed successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // DTK
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getDTK = async (req, res) => {
   try {
     const DTKPage = await prisma.dtk_page.findMany();
@@ -1920,8 +1993,14 @@ exports.getDTK = async (req, res) => {
       },
     });
 
+    const DTKPageId = DTKPage[0]?.id;
+
+    if (!DTKPageId) {
+      throw new Error("DTK page not found");
+    }
+
     const artist = await prisma.artist_section_dtk_page.findUnique({
-      where: { id: DTKPage[0].id },
+      where: { id: DTKPageId },
       select: {
         id: true,
         h2: true,
@@ -1937,7 +2016,7 @@ exports.getDTK = async (req, res) => {
     });
 
     const reviews = await prisma.reviews_section_dtk_page.findUnique({
-      where: { id: DTKPage[0].id },
+      where: { id: DTKPageId },
       select: {
         id: true,
         review_section_dtk_page_content: {
@@ -1954,7 +2033,7 @@ exports.getDTK = async (req, res) => {
     });
 
     const lastSection = await prisma.last_section_dtk_page.findUnique({
-      where: { id: DTKPage[0].id },
+      where: { id: DTKPageId },
       select: {
         id: true,
         tradeMark: true,
@@ -1975,14 +2054,14 @@ exports.getDTK = async (req, res) => {
       lastSection,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editDTK = async (req, res) => {
   try {
     const { sectionId, id } = req.body;
@@ -2076,14 +2155,14 @@ exports.editDTK = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.uploadDTKImages = async (req, res) => {
   try {
     if (req.file) {
@@ -2151,14 +2230,14 @@ exports.uploadDTKImages = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addArtist = async (req, res) => {
   try {
     const { name, sectionId } = req.body;
@@ -2185,14 +2264,14 @@ exports.addArtist = async (req, res) => {
       message: "artist added successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetDTK = async (req, res) => {
   try {
     const { paragraphId, artistId, sectionId } = req.query;
@@ -2242,6 +2321,9 @@ exports.resetDTK = async (req, res) => {
       case "artistSection-dtkpage":
         if (parseInt(artistId)) {
           const data = artists[parseInt(artistId) - 1];
+          if (!data) {
+            throw new Error("Artist not found");
+          }
           await prisma.artist_section_dtk_page_content.update({
             where: {
               id: parseInt(artistId),
@@ -2269,16 +2351,16 @@ exports.resetDTK = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // DTK product
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getDTKproduct = async (req, res) => {
   try {
     const DTKproduct = await prisma.dtk_product.findFirst({
@@ -2337,14 +2419,14 @@ exports.getDTKproduct = async (req, res) => {
       DTKproduct,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addDTKfeature = async (req, res) => {
   const productId = await prisma.dtk_product.findFirst({
     where: {
@@ -2357,10 +2439,16 @@ exports.addDTKfeature = async (req, res) => {
       throw new Error("Please fill information!");
     }
 
+    const dtk_productId = productId?.id;
+
+    if (!dtk_productId) {
+      throw new Error("Product not found");
+    }
+
     await prisma.features_dtk.create({
       data: {
         li: req.body.li,
-        dtk_productId: productId?.id,
+        dtk_productId: dtk_productId,
       },
     });
 
@@ -2369,38 +2457,51 @@ exports.addDTKfeature = async (req, res) => {
       message: "Feature added successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeDTKfeature = async (req, res) => {
   try {
     if (!req.query.handle || !req.query.id) {
       throw new Error("Handle name & id not found");
     }
 
+    const handle = req.query.handle;
+
+    if (typeof handle !== "string") {
+      throw new Error("Handle name not found");
+    }
+
     const dtkproduct = await prisma.dtk_product.findFirst({
-      where: {
-        handle: req.query.handle,
-      },
+      where: { handle },
     });
+
+    const dtk_productId = dtkproduct?.id;
+
+    if (!dtk_productId) {
+      throw new Error("Product not found");
+    }
 
     const feature = await prisma.features_dtk.findMany({
-      where: {
-        dtk_productId: dtkproduct?.id,
-      },
+      where: { dtk_productId },
     });
 
-    const featureId = feature.filter((el) => el.id === parseInt(req.query.id));
+    const id_inQuery = +req.query.id;
+    const featureId = feature.filter((el) => el.id === id_inQuery);
+
+    const id = featureId[0]?.id;
+
+    if (!id) {
+      throw new Error("Feature not found");
+    }
 
     await prisma.features_dtk.delete({
-      where: {
-        id: featureId[0].id,
-      },
+      where: { id },
     });
 
     return res.status(200).json({
@@ -2408,14 +2509,14 @@ exports.removeDTKfeature = async (req, res) => {
       message: "Feature removed successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addFilesIncluded = async (req, res) => {
   const productId = await prisma.dtk_product.findFirst({
     where: {
@@ -2426,11 +2527,11 @@ exports.addFilesIncluded = async (req, res) => {
     if (!req.body.li) {
       throw new Error("Please fill information!");
     }
+    const data = {};
+    data.li = req.body.li;
+    if (productId?.id) data.dtk_productId = productId.id;
     await prisma.files_included.create({
-      data: {
-        li: req.body.li,
-        dtk_productId: productId?.id,
-      },
+      data,
     });
 
     return res.status(200).json({
@@ -2438,40 +2539,52 @@ exports.addFilesIncluded = async (req, res) => {
       message: "files included added successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeFilesIncluded = async (req, res) => {
   try {
     if (!req.query.handle || !req.query.id) {
       throw new Error("Handle name & id not found");
     }
 
+    const handle = req.query.handle;
+
+    if (typeof handle !== "string") {
+      throw new Error("Handle name not found");
+    }
+
     const dtkproduct = await prisma.dtk_product.findFirst({
-      where: {
-        handle: req.query.handle,
-      },
+      where: { handle },
     });
+
+    const dtk_productId = dtkproduct?.id;
+
+    if (!dtk_productId) {
+      throw new Error("Product not found");
+    }
 
     const filesInclude = await prisma.files_included.findMany({
-      where: {
-        dtk_productId: dtkproduct?.id,
-      },
+      where: { dtk_productId },
     });
 
-    const filesIncludeId = filesInclude.filter(
-      (el) => el.id === parseInt(req.query.id)
-    );
+    const id_inQuery = +req.query.id;
+
+    const filesIncludeId = filesInclude.filter((el) => el.id === id_inQuery);
+
+    const id = filesIncludeId[0]?.id;
+
+    if (!id) {
+      throw new Error("Files include not found");
+    }
 
     await prisma.files_included.delete({
-      where: {
-        id: filesIncludeId[0].id,
-      },
+      where: { id },
     });
 
     return res.status(200).json({
@@ -2479,14 +2592,14 @@ exports.removeFilesIncluded = async (req, res) => {
       message: "Files include removed successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addYoutubeVideo = async (req, res) => {
   const productId = await prisma.dtk_product.findFirst({
     where: {
@@ -2497,51 +2610,62 @@ exports.addYoutubeVideo = async (req, res) => {
     if (!req.body.src || !req.body.srcImage) {
       throw new Error("Please fill information!");
     }
-    await prisma.youtube_video.create({
-      data: {
-        src: req.body.src,
-        srcImage: req.body.srcImage,
-        title: req.body.title,
-        dtk_productId: productId?.id,
-      },
-    });
+    const data = {};
+
+    if (productId?.id) data.dtk_productId = productId.id;
+    if (req.body.title) data.title = req.body.title;
+    data.src = req.body.src;
+    data.srcImage = req.body.srcImage;
+
+    await prisma.youtube_video.create({ data });
 
     return res.status(200).json({
       success: true,
       message: "Youtube video added successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeYoutubeVideo = async (req, res) => {
   try {
     if (!req.query.handle || !req.query.id) {
       throw new Error("Handle name & id not found");
     }
 
+    if (typeof req.query.handle !== "string") {
+      throw new Error("Handle name not found");
+    }
+
     const dtkproduct = await prisma.dtk_product.findFirst({
-      where: {
-        handle: req.query.handle,
-      },
+      where: { handle: req.query.handle },
     });
+
+    const dtk_productId = dtkproduct?.id;
+
+    if (!dtk_productId) {
+      throw new Error("Product not found");
+    }
 
     const youtube = await prisma.youtube_video.findMany({
-      where: {
-        dtk_productId: dtkproduct?.id,
-      },
+      where: { dtk_productId },
     });
 
-    const youtubeId = youtube.filter((el) => el.id === parseInt(req.query.id));
+    const id_inQuery = +req.query.id;
 
+    const youtubeId = youtube.filter((el) => el.id === id_inQuery);
+
+    const id = youtubeId[0]?.id;
+
+    if (!id) {
+      throw new Error("Video not found");
+    }
     await prisma.youtube_video.delete({
-      where: {
-        id: youtubeId[0].id,
-      },
+      where: { id },
     });
 
     return res.status(200).json({
@@ -2549,13 +2673,13 @@ exports.removeYoutubeVideo = async (req, res) => {
       message: "Youtube video removed successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editDTKproduct = async (req, res) => {
   try {
     let { type } = req.body;
@@ -2615,24 +2739,24 @@ exports.editDTKproduct = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeArtist = async (req, res) => {
   try {
     if (!req.query.id) {
       throw new Error("id not found");
     }
 
+    const id_inQuery = +req.query.id;
+
     await prisma.artist_section_dtk_page_content.delete({
-      where: {
-        id: parseInt(req.query.id),
-      },
+      where: { id: id_inQuery },
     });
 
     return res.status(200).json({
@@ -2640,14 +2764,14 @@ exports.removeArtist = async (req, res) => {
       message: "artist removed successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addDTKreview = async (req, res) => {
   try {
     const { sectionId, review, reviewBy, alt } = req.body;
@@ -2672,16 +2796,16 @@ exports.addDTKreview = async (req, res) => {
       message: "review was added successfully",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // FAQ
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getFAQ = async (req, res) => {
   try {
     const FAQpage = await prisma.faq_page.findMany({
@@ -2713,14 +2837,14 @@ exports.getFAQ = async (req, res) => {
       FAQpage,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetFAQ = async (req, res) => {
   try {
     await prisma.faq_page.update({
@@ -2817,14 +2941,14 @@ exports.resetFAQ = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editFAQ = async (req, res) => {
   try {
     const { listId } = req.query;
@@ -2865,14 +2989,14 @@ exports.editFAQ = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addFAQ = async (req, res) => {
   try {
     const { answer_type, h2, h3, p, faq_list } = req.body;
@@ -2920,14 +3044,14 @@ exports.addFAQ = async (req, res) => {
       message: "Faq added Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addFAQList = async (req, res) => {
   try {
     const { li, id } = req.body;
@@ -2957,14 +3081,14 @@ exports.addFAQList = async (req, res) => {
       message: "Faq list was added Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeFAQ = async (req, res) => {
   try {
     const { id } = req.query;
@@ -2990,14 +3114,14 @@ exports.removeFAQ = async (req, res) => {
       message: "Faq removed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeFAQlist = async (req, res) => {
   try {
     const { faqId, id } = req.query;
@@ -3017,16 +3141,16 @@ exports.removeFAQlist = async (req, res) => {
       message: "Faq list removed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // Terms Of Service
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getTermsOfService = async (req, res) => {
   try {
     const termsOfService = await prisma.terms_of_service.findMany({
@@ -3053,14 +3177,14 @@ exports.getTermsOfService = async (req, res) => {
       termsOfService,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetTermsOfService = async (req, res) => {
   try {
     const HEADERS = [
@@ -3395,14 +3519,14 @@ exports.resetTermsOfService = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editTermsOfService = async (req, res) => {
   try {
     const { textId, termSectionId, h3, text } = req.body;
@@ -3442,16 +3566,16 @@ exports.editTermsOfService = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // Shipping Policy
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getShippingPolicy = async (req, res) => {
   try {
     const ShippingPolicy = await prisma.shipping_policy.findMany({
@@ -3481,14 +3605,14 @@ exports.getShippingPolicy = async (req, res) => {
       ShippingPolicy,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetShippingPolicy = async (req, res) => {
   try {
     const ShippingUl = [
@@ -3545,14 +3669,14 @@ exports.resetShippingPolicy = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editShippingPolicy = async (req, res) => {
   try {
     const { id, sectionId, h2, h2s, p, p2, li } = req.body;
@@ -3595,16 +3719,16 @@ exports.editShippingPolicy = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // Refund Policy
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getRefundPolicy = async (req, res) => {
   try {
     const RefundPolicy = await prisma.refund_policy.findUnique({
@@ -3618,14 +3742,14 @@ exports.getRefundPolicy = async (req, res) => {
       RefundPolicy,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetRefundPolicy = async (req, res) => {
   try {
     await prisma.refund_policy.update({
@@ -3643,14 +3767,14 @@ exports.resetRefundPolicy = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editRefundPolicy = async (req, res) => {
   try {
     const { h2, p } = req.body;
@@ -3670,16 +3794,16 @@ exports.editRefundPolicy = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // Privacy Policy
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getPrivacyPolicy = async (req, res) => {
   try {
     const PrivacyPolicy = await prisma.privacy_policy.findUnique({
@@ -4012,14 +4136,14 @@ exports.getPrivacyPolicy = async (req, res) => {
       PrivacyPolicy,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetPrivacyPolicy = async (req, res) => {
   const lawfulBasisUl = [
     {
@@ -4435,30 +4559,34 @@ exports.resetPrivacyPolicy = async (req, res) => {
     });
 
     necessaryTable.map(async (el) => {
+      const data = {};
+
+      if (el.strong) data.strong = el.strong;
+      if (el.strong2) data.strong2 = el.strong2;
+      if (el.em) data.em = el.em;
+      if (el.td) data.td = el.td;
+
       await prisma.privacy_policy_cookies_necessary_table.update({
         where: {
           id: el.id,
         },
-        data: {
-          strong: el.strong,
-          strong2: el.strong2,
-          em: el.em,
-          td: el.td,
-        },
+        data,
       });
     });
 
     analyticsTable.map(async (el) => {
+      const data = {};
+
+      if (el.strong) data.strong = el.strong;
+      if (el.strong2) data.strong2 = el.strong2;
+      if (el.em) data.em = el.em;
+      if (el.td) data.td = el.td;
+
       await prisma.privacy_policy_cookies_analytics_table.update({
         where: {
           id: el.id,
         },
-        data: {
-          strong: el.strong,
-          strong2: el.strong2,
-          em: el.em,
-          td: el.td,
-        },
+        data,
       });
     });
 
@@ -4752,14 +4880,14 @@ exports.resetPrivacyPolicy = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editPrivacyPolicy = async (req, res) => {
   try {
     switch (req.body.sectionId) {
@@ -5061,25 +5189,37 @@ exports.editPrivacyPolicy = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // reviews
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.resetReviews = async (req, res) => {
   try {
     const reviewsArray = reviews;
 
     const { pageId, reviewId } = req.query;
 
+    if (!pageId) {
+      throw new Error("Page ID is required");
+    }
+
+    if (!reviewId) {
+      throw new Error("Review ID is required");
+    }
+
     switch (pageId) {
-      case "sixSection-knock":
-        const data = reviewsArray[parseInt(reviewId) - 1];
+      case "sixSection-knock": {
+        const data = reviewsArray[+reviewId - 1];
+        if (!data) {
+          throw new Error("No review section found");
+        }
+
         await prisma.six_section_knock_page.update({
           where: {
             id: 1,
@@ -5088,7 +5228,7 @@ exports.resetReviews = async (req, res) => {
             six_section_knock_page_content: {
               update: {
                 where: {
-                  id: parseInt(reviewId),
+                  id: +reviewId,
                 },
                 data,
               },
@@ -5096,8 +5236,13 @@ exports.resetReviews = async (req, res) => {
           },
         });
         break;
-      case "reviewSection-dtkpage":
-        const reviewSection = reviewsDTKPage[parseInt(reviewId) - 1];
+      }
+      case "reviewSection-dtkpage": {
+        const reviewSection = reviewsDTKPage[+reviewId - 1];
+
+        if (!reviewSection) {
+          throw new Error("No review section found");
+        }
 
         await prisma.reviews_section_dtk_page.update({
           where: {
@@ -5107,7 +5252,7 @@ exports.resetReviews = async (req, res) => {
             review_section_dtk_page_content: {
               update: {
                 where: {
-                  id: parseInt(reviewId),
+                  id: +reviewId,
                 },
                 data: reviewSection,
               },
@@ -5115,6 +5260,7 @@ exports.resetReviews = async (req, res) => {
           },
         });
         break;
+      }
 
       default:
         break;
@@ -5125,16 +5271,16 @@ exports.resetReviews = async (req, res) => {
       message: "Section changed Successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
 // UpSelling
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.getUpSellingPopup = async (req, res) => {
   try {
     const upselling = await prisma.upselling_popup.findMany({
@@ -5156,17 +5302,24 @@ exports.getUpSellingPopup = async (req, res) => {
       upsellingSettings,
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addUpSellingPopup = async (req, res) => {
   try {
-    let { handle, discount_percentage, hasDiscount, comparePriceAt, price, discount_code } = req.body;
+    let {
+      handle,
+      discount_percentage,
+      hasDiscount,
+      comparePriceAt,
+      price,
+      discount_code,
+    } = req.body;
 
     if (!handle) {
       throw new Error("Please Select a product");
@@ -5183,28 +5336,35 @@ exports.addUpSellingPopup = async (req, res) => {
     }
 
     if (!hasDiscount && !comparePriceAt) {
-      throw new Error("This product is not on sale add discount code")
+      throw new Error("This product is not on sale add discount code");
     }
 
     if (hasDiscount) {
-
       if (!discount_percentage) {
-        throw new Error('Please  add discount percentage')
+        throw new Error("Please  add discount percentage");
       }
 
       if (!discount_code) {
-        throw new Error('Please  add discount code')
+        throw new Error("Please  add discount code");
       }
     }
 
-    const percentageDecrease = calculatePercentageDecrease(comparePriceAt, price);
+    const percentageDecrease = calculatePercentageDecrease(
+      comparePriceAt,
+      price
+    );
 
     await prisma.upselling_popup.create({
       data: {
         hasDiscount,
         handle,
         discount_code,
-        discount_percentage: (!hasDiscount && comparePriceAt) ? parseFloat(percentageDecrease) : discount_percentage ? parseFloat(discount_percentage) : null
+        discount_percentage:
+          !hasDiscount && comparePriceAt
+            ? +percentageDecrease
+            : discount_percentage
+            ? +discount_percentage
+            : null,
       },
     });
 
@@ -5212,19 +5372,25 @@ exports.addUpSellingPopup = async (req, res) => {
       success: true,
       message: "Upsell product was added successfully!",
     });
-
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editUpSellingPopup = async (req, res) => {
   try {
-    let { handle, discount_percentage, hasDiscount, comparePriceAt, price, discount_code } = req.body;
+    let {
+      handle,
+      discount_percentage,
+      hasDiscount,
+      comparePriceAt,
+      price,
+      discount_code,
+    } = req.body;
 
     const handleExist = await prisma.upselling_popup.findFirst({
       where: {
@@ -5237,22 +5403,23 @@ exports.editUpSellingPopup = async (req, res) => {
     }
 
     if (!hasDiscount && !comparePriceAt) {
-      throw new Error("This product is not on sale add discount code")
+      throw new Error("This product is not on sale add discount code");
     }
 
     if (hasDiscount) {
-
       if (!discount_percentage) {
-        throw new Error('Please  add discount percentage')
+        throw new Error("Please  add discount percentage");
       }
 
       if (!discount_code) {
-        throw new Error('Please  add discount code')
+        throw new Error("Please  add discount code");
       }
     }
 
-    const percentageDecrease = calculatePercentageDecrease(comparePriceAt, price);
-
+    const percentageDecrease = calculatePercentageDecrease(
+      comparePriceAt,
+      price
+    );
 
     await prisma.upselling_popup.update({
       where: {
@@ -5262,7 +5429,12 @@ exports.editUpSellingPopup = async (req, res) => {
         hasDiscount,
         handle,
         discount_code,
-        discount_percentage: (!hasDiscount && comparePriceAt) ? parseFloat(percentageDecrease) : discount_percentage ? parseFloat(discount_percentage) : null
+        discount_percentage:
+          !hasDiscount && comparePriceAt
+            ? +percentageDecrease
+            : discount_percentage
+            ? +discount_percentage
+            : null,
       },
     });
 
@@ -5271,16 +5443,15 @@ exports.editUpSellingPopup = async (req, res) => {
       message: "Upsell product was changed successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editUpSellingProductsOrder = async (req, res) => {
-
   try {
     const { reorderedItems } = req.body;
 
@@ -5294,18 +5465,17 @@ exports.editUpSellingProductsOrder = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Upsell products sort was changed successfully!"
+      message: "Upsell products sort was changed successfully!",
     });
-
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
-}
+};
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.editUpSellingPopupSettings = async (req, res) => {
   try {
     let { id } = req.body;
@@ -5334,26 +5504,24 @@ exports.editUpSellingPopupSettings = async (req, res) => {
       message: "Upsell settings was changed successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.deleteUpSellingPopup = async (req, res) => {
   try {
     let { handle } = req.query;
 
-    if (!handle) {
+    if (typeof handle !== "string") {
       throw new Error("Please select upsell product to delete");
     }
 
     const handleExist = await prisma.upselling_popup.findFirst({
-      where: {
-        handle,
-      },
+      where: { handle },
     });
 
     if (!handleExist) {
@@ -5371,20 +5539,18 @@ exports.deleteUpSellingPopup = async (req, res) => {
       message: "Upsell product was deleted successfully!",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
 };
 
-
 // add dtk product
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.addDTKProduct = async (req, res) => {
   try {
-
     if (!req.body.handle) {
       throw new Error("Please provide the product handle!");
     }
@@ -5396,8 +5562,8 @@ exports.addDTKProduct = async (req, res) => {
     const isProductExist = await prisma.dtk_product.findFirst({
       where: {
         handle: req.body.handle,
-      }
-    })
+      },
+    });
 
     if (isProductExist) {
       throw new Error("DTK product already exist!");
@@ -5409,46 +5575,43 @@ exports.addDTKProduct = async (req, res) => {
         description: {
           create: {
             h3: req.body.description.h3,
-            text: req.body.description.text
-          }
+            text: req.body.description.text,
+          },
         },
         features: {
           createMany: {
-            data: req.body.features
-          }
+            data: req.body.features,
+          },
         },
         filesIncluded: {
           createMany: {
-            data: req.body.filesIncluded
-          }
+            data: req.body.filesIncluded,
+          },
         },
         youtubeVideo: {
           createMany: {
-            data: req.body.youtubeVideo
-          }
-        }
-      }
-    })
-
+            data: req.body.youtubeVideo,
+          },
+        },
+      },
+    });
 
     return res.status(200).json({
       success: true,
       message: "Product was added successfully!",
     });
-
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
-}
+};
 
+/**
+ * @param {Request} req
+ * @param {Response} res
+ */
 exports.removeDTKProduct = async (req, res) => {
-
   try {
-    const { handle } = req.query
+    const { handle } = req.query;
 
     if (!handle) {
       throw new Error("Please provide the product handle!");
@@ -5456,9 +5619,9 @@ exports.removeDTKProduct = async (req, res) => {
 
     const product = await prisma.dtk_product.findFirst({
       where: {
-        handle
-      }
-    })
+        handle,
+      },
+    });
 
     if (!product) {
       throw new Error("Product details already removed!");
@@ -5466,21 +5629,15 @@ exports.removeDTKProduct = async (req, res) => {
 
     await prisma.dtk_product.delete({
       where: {
-        id: product.id
-      }
-    })
+        id: product.id,
+      },
+    });
 
     return res.status(200).json({
       success: true,
       message: "Product was removed successfully!",
     });
-
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    return handleGenircError(res, error);
   }
-
-}
+};
