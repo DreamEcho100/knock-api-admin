@@ -8,7 +8,7 @@
     "start": "NODE_ENV=prod node index.js --ext js,json",
     "dev": "NODE_ENV=dev nodemon index.js --ext js,json",
     "migrate": "npx prisma migrate dev",
-    "postinstall": "pnpm run npx prisma generate",
+    "postinstall": "npx prisma generate",
     "db:wake-up": "docker compose up -d"
   },
   "keywords": [],
