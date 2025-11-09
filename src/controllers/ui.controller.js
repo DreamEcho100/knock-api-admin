@@ -5289,14 +5289,11 @@ exports.getUpSellingPopup = async (req, res) => {
       },
     });
 
-    console.log("___ upselling", upselling);
-
     const upsellingSettings = await prisma.upselling_popup_settings.findMany({
       orderBy: {
         id: "asc",
       },
     });
-    console.log("___ upsellingSettings", upsellingSettings);
 
     return res.status(200).json({
       success: true,

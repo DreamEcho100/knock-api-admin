@@ -15,6 +15,7 @@ const allowedOrigins = [
   "https://pluginsthatknock.com",
   "https://www.pluginsthatknock.com",
   "https://plugins-that-knock.myshopify.com",
+  "https://knockaudio.com/",
   "https://admin.pluginsthatknock.com",
   "http://localhost:8080",
 ];
