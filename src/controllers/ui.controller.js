@@ -30,7 +30,7 @@ exports.getBanner = async (req, res) => {
   try {
     const banner = await prisma.banner.findUnique({
       where: {
-        id: 3,
+        id: 1,
       },
     });
 
@@ -54,7 +54,7 @@ exports.changeBanner = async (req, res) => {
 
     const update = await prisma.banner.update({
       where: {
-        id: 3,
+        id: 1,
       },
       data,
     });
@@ -5289,11 +5289,14 @@ exports.getUpSellingPopup = async (req, res) => {
       },
     });
 
+    console.log("___ upselling", upselling);
+
     const upsellingSettings = await prisma.upselling_popup_settings.findMany({
       orderBy: {
         id: "asc",
       },
     });
+    console.log("___ upsellingSettings", upsellingSettings);
 
     return res.status(200).json({
       success: true,

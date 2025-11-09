@@ -16,6 +16,7 @@ const allowedOrigins = [
   "https://www.pluginsthatknock.com",
   "https://plugins-that-knock.myshopify.com",
   "https://admin.pluginsthatknock.com",
+  "http://localhost:8080",
 ];
 
 app.use(
@@ -118,6 +119,7 @@ const initBanner = async () => {
   if (!isBannerFound.length) {
     await prisma.banner.create({
       data: {
+        id: 1,
         background: "#7548FE",
         text: "Check this out Knock Clipper",
         textColor: "white",
