@@ -7,7 +7,33 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static("public"));
-app.use(cors());
+
+// Configure CORS to allow multiple origins
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3500",
+  "https://pluginsthatknock.com",
+  "https://www.pluginsthatknock.com",
+  "plugins-that-knock.myshopify.com",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  })
+);
 
 const authRouter = require("./src/routers/auth.router.js");
 const adminRouter = require("./src/routers/admin.router.js");
@@ -153,6 +179,7 @@ const initPopup = async () => {
   if (!isPopup.length) {
     await prisma.popup.create({
       data: {
+        id: 1,
         h2: "KNOCK CLIPPER",
         p: "Adjustable hard & soft clipper module from KNOCK.",
         h2Color: "#FFFFFF",

@@ -546,7 +546,7 @@ exports.getPopUp = async (req, res) => {
   try {
     const popup = await prisma.popup.findUnique({
       where: {
-        id: 3,
+        id: 1,
       },
     });
 
@@ -568,7 +568,7 @@ exports.resetPopUp = async (req, res) => {
   try {
     const update = await prisma.popup.update({
       where: {
-        id: 3,
+        id: 1,
       },
       data: {
         h2: "KNOCK CLIPPER",
@@ -606,7 +606,7 @@ exports.changePopUp = async (req, res) => {
 
     const update = await prisma.popup.update({
       where: {
-        id: 3,
+        id: 1,
       },
       data,
     });
@@ -631,7 +631,7 @@ exports.uploadImagePopUp = async (req, res) => {
 
       await prisma.popup.update({
         where: {
-          id: 3,
+          id: 1,
         },
         data: {
           mainImageUrl: path[1],
