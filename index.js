@@ -14,7 +14,8 @@ const allowedOrigins = [
   "http://localhost:3500",
   "https://pluginsthatknock.com",
   "https://www.pluginsthatknock.com",
-  "plugins-that-knock.myshopify.com",
+  "https://plugins-that-knock.myshopify.com",
+  "https://admin.pluginsthatknock.com",
 ];
 
 app.use(
