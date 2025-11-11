@@ -127,7 +127,6 @@ const createAdmin = async () => {
 const initBanner = async () => {
   const isBannerFound = await prisma.banner.findMany();
   await prisma.banner.updateMany({
-    where: { id: 3 },
     data: { id: 1 },
   });
   if (!isBannerFound.length) {
@@ -194,7 +193,6 @@ const initMainSection = async () => {
 const initPopup = async () => {
   const isPopup = await prisma.popup.findMany();
   await prisma.popup.updateMany({
-    where: { id: 3 },
     data: { id: 1 },
   });
   if (!isPopup.length) {
@@ -2776,7 +2774,6 @@ const initPrivacyPolicy = async () => {
 const initUpSelling = async () => {
   const upselling = await prisma.upselling_popup.findMany();
   await prisma.upselling_popup.updateMany({
-    where: { id: 3 },
     data: { id: 1 },
   });
 
