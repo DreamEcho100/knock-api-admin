@@ -10,13 +10,20 @@ app.use(express.static("public"));
 
 // Configure CORS to allow multiple origins
 const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:3500",
+  "https://pluginsthatknock.com",
+  "https://www.pluginsthatknock.com",
   "https://pluginsthatknock.com",
   "https://www.pluginsthatknock.com",
   "https://plugins-that-knock.myshopify.com",
+  "https://www.plugins-that-knock.myshopify.com",
   "https://knockaudio.com/",
+  "https://www.knockaudio.com/",
   "https://admin.pluginsthatknock.com",
+  "https://www.admin.pluginsthatknock.com",
+  "https://knockaudio.com",
+  "https://www.knockaudio.com",
+  "http://localhost:3000",
+  "http://localhost:3500",
   "http://localhost:8080",
 ];
 
