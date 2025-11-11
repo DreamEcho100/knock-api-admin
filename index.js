@@ -126,6 +126,10 @@ const createAdmin = async () => {
 
 const initBanner = async () => {
   const isBannerFound = await prisma.banner.findMany();
+  await prisma.banner.update({
+    where: { id: 3 },
+    data: { id: 1 },
+  });
   if (!isBannerFound.length) {
     await prisma.banner.create({
       data: {
@@ -189,6 +193,10 @@ const initMainSection = async () => {
 
 const initPopup = async () => {
   const isPopup = await prisma.popup.findMany();
+  await prisma.popup.update({
+    where: { id: 3 },
+    data: { id: 1 },
+  });
   if (!isPopup.length) {
     await prisma.popup.create({
       data: {
@@ -2767,12 +2775,17 @@ const initPrivacyPolicy = async () => {
 
 const initUpSelling = async () => {
   const upselling = await prisma.upselling_popup.findMany();
+  await prisma.upselling_popup.update({
+    where: { id: 3 },
+    data: { id: 1 },
+  });
 
   if (upselling.length) {
     return;
   } else {
     await prisma.upselling_popup.create({
       data: {
+        id: 1,
         handle: "knock-plugin",
         discount_code: "HKASGGWV381S",
         discount_percentage: 40,
@@ -2888,21 +2901,52 @@ const initDrumsThatKnockLimitedEdition = async () => {
   });
 };
 
-createAdmin();
-initBanner();
-initMainSection();
-initPopup();
-initHomePage();
-initKnockPage();
-initKnockClipperPage();
-initDTKPage();
-initFAQPage();
-initDTKproduct();
-initTermsOfService();
-initShippingPolicy();
-initRefundPolicy();
-initPrivacyPolicy();
-initDtkMainSection();
-initUpSelling();
-initSettingsUpSell();
-initDrumsThatKnockLimitedEdition();
+// Initialize database with error handling
+const initializeDatabase = async () => {
+  try {
+    console.log("Starting database initialization...");
+
+    await createAdmin();
+    await initBanner();
+    await initMainSection();
+    await initPopup();
+    await initHomePage();
+    await initKnockPage();
+    await initKnockClipperPage();
+    await initDTKPage();
+    await initFAQPage();
+    await initDTKproduct();
+    await initTermsOfService();
+    await initShippingPolicy();
+    await initRefundPolicy();
+    await initPrivacyPolicy();
+    await initDtkMainSection();
+    await initUpSelling();
+    await initSettingsUpSell();
+    await initDrumsThatKnockLimitedEdition();
+
+    console.log("Database initialization completed successfully");
+  } catch (error) {
+    console.error("Error during database initialization:", error.message);
+    console.error(
+      "Server will continue running, but some data may not be initialized."
+    );
+    // Don't crash the server - let it continue running
+  }
+};
+
+// Run initialization
+initializeDatabase();
+
+// Graceful shutdown
+process.on("SIGINT", async () => {
+  console.log("\nShutting down gracefully...");
+  await prisma.$disconnect();
+  process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+  console.log("\nShutting down gracefully...");
+  await prisma.$disconnect();
+  process.exit(0);
+});
