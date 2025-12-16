@@ -20,6 +20,8 @@ const allowedOrigins = [
   "https://www.knockaudio.com",
   "https://admin.pluginsthatknock.com",
   "https://www.admin.pluginsthatknock.com",
+  "https://admin.knockaudio.com",
+  "https://www.admin.knockaudio.com",
   "http://localhost:3000",
   "http://localhost:3500",
   "http://localhost:8080",
