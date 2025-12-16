@@ -12,8 +12,6 @@ app.use(express.static("public"));
 const allowedOrigins = [
   "https://pluginsthatknock.com",
   "https://www.pluginsthatknock.com",
-  "https://pluginsthatknock.com",
-  "https://www.pluginsthatknock.com",
   "https://plugins-that-knock.myshopify.com",
   "https://www.plugins-that-knock.myshopify.com",
   "https://knockaudio.com",
@@ -25,23 +23,12 @@ const allowedOrigins = [
   "http://localhost:8080",
 ];
 
+// Use the array directly - cors middleware handles it properly
 app.use(
   cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        console.log("Origin not allowed:", origin); // Debug log
-        // Don't throw an error, just return false
-        callback(null, false);
-      }
-    },
+    origin: allowedOrigins,
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    optionsSuccessStatus: 200,
   })
 );
 
